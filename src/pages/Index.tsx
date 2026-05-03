@@ -54,7 +54,7 @@ const Nav = () => (
     <div className="container mx-auto px-6 h-16 flex items-center justify-between">
       <a href="#top" className="flex items-center gap-2 font-bold text-lg">
         <div className="w-8 h-8 rounded-lg bg-gradient-primary shadow-glow" />
-        <span className="glow-text">Pixelforge</span>
+        <span className="glow-text">BuildWeb</span>
       </a>
       <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
         <a href="#servicos" className="hover:text-foreground transition-colors">Serviços</a>
@@ -288,9 +288,9 @@ const Index = () => {
               </p>
               <div className="space-y-5">
                 {[
-                  { icon: Mail, text: "ola@pixelforge.pt" },
-                  { icon: Phone, text: "+351 910 000 000" },
-                  { icon: MapPin, text: "Lisboa, Portugal" },
+                  { icon: Mail, text: "hello@buildwebsites.pt" },
+                  { icon: Phone, text: "+351 931 407 986" },
+                  { icon: MapPin, text: "Porto, Portugal" },
                 ].map((c) => (
                   <div key={c.text} className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg glass flex items-center justify-center">
@@ -357,9 +357,9 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2 font-bold">
               <div className="w-8 h-8 rounded-lg bg-gradient-primary shadow-glow" />
-              <span className="glow-text">Pixelforge</span>
+              <span className="glow-text">BuildWeb</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2026 Pixelforge. Websites que vendem.</p>
+            <p className="text-sm text-muted-foreground">© 2026 BuildWeb. Websites que vendem.</p>
             <div className="flex gap-3">
               {[Twitter, Linkedin, Github].map((I, i) => (
                 <a key={i} href="#" aria-label="social"
