@@ -182,22 +182,24 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden">
           {projects.map((p) => (
-          <a key={p.title} href={p.href} target="_blank" rel="noopener noreferrer">
-    <Card className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
-             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+           <Card
+    key={p.title}
+    onClick={() => window.open(p.href, "_blank")}
+    className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500"
+  >
+    <div className="relative aspect-[4/3] overflow-hidden">
+      <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
+           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+    </div>
+    <div className="p-6">
+      <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
+      <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
+      <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
+        <ArrowRight className="w-4 h-4" /> Ver template
       </div>
-      <div className="p-6">
-        <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
-        <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
-          <ArrowRight className="w-4 h-4" /> Ver template
-        </div>
-      </div>
-    </Card>
-  </a>
+    </div>
+  </Card>
 ))}
 
       {/* PORTFÓLIO */}
