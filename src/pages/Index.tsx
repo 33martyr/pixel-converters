@@ -182,7 +182,7 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden">
           {projects.map((p) => (
-           <Card
+  <Card
     key={p.title}
     onClick={() => window.open(p.href, "_blank")}
     className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500"
@@ -195,8 +195,8 @@ const Index = () => {
     <div className="p-6">
       <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
       <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-      <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
-        <ArrowRight className="w-4 h-4" /> Ver template
+      <div className="flex items-center gap-2 text-sm font-medium text-primary">
+        Ver template <ArrowRight className="w-4 h-4" />
       </div>
     </div>
   </Card>
