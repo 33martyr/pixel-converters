@@ -181,16 +181,24 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden">
-            {services.map((s) => (
-              <div key={s.title} className="bg-background p-8 md:p-10 hover:bg-secondary/40 transition-colors group">
-                <s.icon className="w-8 h-8 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-semibold mb-3">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
+          {projects.map((p) => (
+          <a key={p.title} href={p.href} target="_blank" rel="noopener noreferrer">
+    <Card className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500">
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
+             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+      </div>
+      <div className="p-6">
+        <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
+        <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
+          <ArrowRight className="w-4 h-4" /> Ver template
         </div>
-      </section>
+      </div>
+    </Card>
+  </a>
+))}
 
       {/* PORTFÓLIO */}
       <section id="portfolio" className="py-24 md:py-32">
