@@ -31,9 +31,24 @@ const services = [
 ];
 
 const projects = [
-  { img: project1, title: "Loja Premium", category: "E-commerce", result: "+212% vendas online" },
-  { img: project2, title: "Plataforma SaaS", category: "Landing Page", result: "+340% leads qualificados" },
-  { img: project3, title: "Restaurante Boutique", category: "Website", result: "+180% reservas online" },
+  {
+    img: project1,
+    title: "Plataforma de Software",
+    category: "Web App",
+    href: "https://phase.uno",
+  },
+  {
+    img: project2,
+    title: "Dashboard SaaS",
+    category: "Plataforma Digital",
+    href: "https://endpoint.digital",
+  },
+  {
+    img: project3,
+    title: "Restaurante Boutique",
+    category: "Website",
+    href: "https://fly-by-flavor-web.lovable.app",
+  },
 ];
 
 const steps = [
