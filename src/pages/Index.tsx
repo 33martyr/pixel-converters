@@ -179,35 +179,35 @@ const Index = () => {
 
       {/* PORTFÓLIO */}
       <section id="portfolio" className="py-24 md:py-32">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mb-16">
-            <p className="text-sm uppercase tracking-widest text-primary mb-4">Portfólio</p>
-            <h2 className="text-4xl md:text-5xl font-bold">Resultados que falam por nós.</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((p) => (
-              <Card
-                key={p.title}
-                onClick={() => window.open(p.href, "_blank")}
-                className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
-                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
-                  <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-                  <div className="flex items-center gap-2 text-sm font-medium text-primary">
-                    Ver template <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+  <div className="container mx-auto px-6">
+    <div className="max-w-2xl mb-16">
+      <p className="text-sm uppercase tracking-widest text-primary mb-4">Portfólio</p>
+      <h2 className="text-4xl md:text-5xl font-bold">Resultados que falam por nós.</h2>
+    </div>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((p) => (
+        <div key={p.title} className="relative group">
+          <Card className="glass border-white/5 overflow-hidden hover:shadow-elegant transition-all duration-500">
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
+                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+            </div>
+            <div className="p-6">
+              <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
+              <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
+              <div className="flex items-center gap-2 text-sm font-medium text-primary">
+                Ver template <ArrowRight className="w-4 h-4" />
+              </div>
+            </div>
+          </Card>
+          <a href={p.href} target="_blank" rel="noopener noreferrer"
+             className="absolute inset-0 z-10" aria-label={p.title} />
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* PROCESSO */}
       <section id="processo" className="py-24 md:py-32 relative">
