@@ -31,24 +31,9 @@ const services = [
 ];
 
 const projects = [
-  {
-    img: project1,
-    title: "Plataforma de Software",
-    category: "Web App",
-    href: "https://phase.uno",
-  },
-  {
-    img: project2,
-    title: "Dashboard SaaS",
-    category: "Plataforma Digital",
-    href: "https://endpoint.digital",
-  },
-  {
-    img: project3,
-    title: "Restaurante Boutique",
-    category: "Website",
-    href: "https://fly-by-flavor-web.lovable.app",
-  },
+  { img: project1, title: "Plataforma de Software", category: "Web App", href: "https://phase.uno" },
+  { img: project2, title: "Dashboard SaaS", category: "Plataforma Digital", href: "https://endpoint.digital" },
+  { img: project3, title: "Restaurante Boutique", category: "Website", href: "https://fly-by-flavor-web.lovable.app" },
 ];
 
 const steps = [
@@ -181,26 +166,16 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden">
-          {projects.map((p) => (
-  <Card
-    key={p.title}
-    onClick={() => window.open(p.href, "_blank")}
-    className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500"
-  >
-    <div className="relative aspect-[4/3] overflow-hidden">
-      <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
-           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-    </div>
-    <div className="p-6">
-      <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
-      <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-      <div className="flex items-center gap-2 text-sm font-medium text-primary">
-        Ver template <ArrowRight className="w-4 h-4" />
-      </div>
-    </div>
-  </Card>
-))}
+            {services.map((s) => (
+              <div key={s.title} className="bg-background p-8 md:p-10 hover:bg-secondary/40 transition-colors group">
+                <s.icon className="w-8 h-8 text-primary mb-6 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-semibold mb-3">{s.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* PORTFÓLIO */}
       <section id="portfolio" className="py-24 md:py-32">
@@ -211,7 +186,11 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((p) => (
-              <Card key={p.title} className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500">
+              <Card
+                key={p.title}
+                onClick={() => window.open(p.href, "_blank")}
+                className="glass border-white/5 overflow-hidden group cursor-pointer hover:shadow-elegant transition-all duration-500"
+              >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -220,8 +199,8 @@ const Index = () => {
                 <div className="p-6">
                   <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
                   <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <TrendingUp className="w-4 h-4 text-primary" /> {p.result}
+                  <div className="flex items-center gap-2 text-sm font-medium text-primary">
+                    Ver template <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </Card>
