@@ -33,7 +33,7 @@ const services = [
 const projects = [
   { img: project1, title: "Plataforma de Software", category: "Web App", href: "https://phase.uno" },
   { img: project2, title: "Dashboard SaaS", category: "Plataforma Digital", href: "https://endpoint.digital" },
-  { img: project3, title: "Restaurante Boutique", category: "Website", href: "https://fly-by-flavor-web.lovable.app" },
+  { img: project3, title: "Restaurante Boutique", category: "Website", href: "https://restaurante.buildwebsites.pt/" },
 ];
 
 const steps = [
