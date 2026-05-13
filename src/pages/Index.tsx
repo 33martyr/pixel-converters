@@ -14,9 +14,15 @@ import project1 from "@/assets/project-1.jpg";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
 
-/** Inbox for contact form deliveries (FormSubmit AJAX). */
+/** Inbox for contact form deliveries. */
 const CONTACT_INBOX = "hello@buildwebsites.pt";
-const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`;
+/** FormSubmit expects the raw address in the path (not %40-encoded). */
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_INBOX}`;
+
+/** FormSubmit / Web3Forms return `success` as boolean or string. */
+function isFormSuccess(data: { success?: unknown }): boolean {
+  return data.success === true || data.success === "true";
+}
 
 const pillars = [
   { icon: Zap, title: "Sites Rápidos", desc: "Performance otimizada. Cada milissegundo conta para SEO e conversão." },
@@ -85,21 +91,48 @@ const Index = () => {
     }
     setSubmitting(true);
     try {
-      const res = await fetch(FORMSUBMIT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: form.nome,
-          email: form.email,
-          _subject: `[BuildWeb] Pedido de orçamento — ${form.tipo.trim() || "geral"}`,
-          message: [form.tipo.trim() && `Tipo de projeto: ${form.tipo}`, "", form.mensagem.trim()]
-            .filter(Boolean)
-            .join("\n"),
-        }),
-      });
-      const data: { success?: boolean; message?: string } = await res.json().catch(() => ({}));
-      if (!res.ok || data.success === false) {
-        throw new Error(typeof data.message === "string" ? data.message : "Não foi possível enviar o pedido.");
+      const subject = `[BuildWeb] Pedido de orçamento — ${form.tipo.trim() || "geral"}`;
+      const messageBody = [form.tipo.trim() && `Tipo de projeto: ${form.tipo}`, "", form.mensagem.trim()]
+        .filter(Boolean)
+        .join("\n");
+
+      const web3Key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+      let data: { success?: unknown; message?: string };
+      let res: Response;
+
+      if (web3Key) {
+        res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: web3Key,
+            subject,
+            from_name: form.nome.trim(),
+            email: form.email.trim(),
+            message: messageBody,
+          }),
+        });
+        data = await res.json().catch(() => ({}));
+      } else {
+        res = await fetch(FORMSUBMIT_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: form.nome.trim(),
+            email: form.email.trim(),
+            _subject: subject,
+            message: messageBody,
+          }),
+        });
+        data = await res.json().catch(() => ({}));
+      }
+
+      if (!res.ok || !isFormSuccess(data)) {
+        const msg =
+          typeof data.message === "string" && data.message.length > 0
+            ? data.message
+            : "Não foi possível enviar o pedido.";
+        throw new Error(msg);
       }
       toast({ title: "Pedido enviado ✓", description: "Entraremos em contacto em menos de 24h." });
       setForm({ nome: "", email: "", tipo: "", mensagem: "" });
