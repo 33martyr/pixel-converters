@@ -92,13 +92,24 @@ const Index = () => {
     setSubmitting(true);
     try {
       const subject = `[BuildWeb] Pedido de orçamento — ${form.tipo.trim() || "geral"}`;
-      const messageBody = [form.tipo.trim() && `Tipo de projeto: ${form.tipo}`, "", form.mensagem.trim()]
-        .filter(Boolean)
-        .join("\n");
+      const lines: string[] = [
+        `Nome: ${form.nome.trim()}`,
+        `Email: ${form.email.trim()}`,
+      ];
+      if (form.tipo.trim()) lines.push(`Tipo de projeto: ${form.tipo.trim()}`);
+      lines.push("", form.mensagem.trim());
+      const messageBody = lines.join("\n");
 
       const web3Key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
       let data: { success?: unknown; message?: string };
       let res: Response;
+
+      const payload = {
+        nome: form.nome.trim(),
+        email: form.email.trim(),
+        tipo: form.tipo.trim(),
+        mensagem: form.mensagem.trim(),
+      };
 
       if (web3Key) {
         res = await fetch("https://api.web3forms.com/submit", {
@@ -107,30 +118,51 @@ const Index = () => {
           body: JSON.stringify({
             access_key: web3Key,
             subject,
-            from_name: form.nome.trim(),
-            email: form.email.trim(),
+            from_name: payload.nome,
+            email: payload.email,
             message: messageBody,
           }),
         });
         data = await res.json().catch(() => ({}));
       } else {
-        // FormSubmit often omits fields in notification emails when using JSON; urlencoded matches their HTML/AJAX examples.
-        const params = new URLSearchParams();
-        params.set("name", form.nome.trim());
-        params.set("email", form.email.trim());
-        params.set("message", messageBody);
-        params.set("_subject", subject);
-        params.set("_template", "table");
+        let usedNetlifyProxy = false;
+        try {
+          const fnRes = await fetch("/.netlify/functions/contact-form", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (fnRes.status !== 404) {
+            usedNetlifyProxy = true;
+            res = fnRes;
+            data = await fnRes.json().catch(() => ({}));
+          }
+        } catch {
+          // Dev / non-Netlify host: fall through to direct FormSubmit
+        }
 
-        res = await fetch(FORMSUBMIT_ENDPOINT, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          },
-          body: params.toString(),
-        });
-        data = await res.json().catch(() => ({}));
+        if (!usedNetlifyProxy) {
+          const fd = new FormData();
+          fd.append("name", payload.nome);
+          fd.append("email", payload.email);
+          fd.append("message", messageBody);
+          fd.append("_subject", subject);
+
+          res = await fetch(FORMSUBMIT_ENDPOINT, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: fd,
+          });
+          const raw = await res.text();
+          try {
+            data = JSON.parse(raw) as { success?: unknown; message?: string };
+          } catch {
+            data = {};
+          }
+          if (Object.keys(data).length === 0 && raw.trim().length > 0) {
+            throw new Error("O serviço de email devolveu uma resposta inesperada. Tente de novo daqui a pouco.");
+          }
+        }
       }
 
       if (!res.ok || !isFormSuccess(data)) {
