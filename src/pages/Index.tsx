@@ -7,12 +7,16 @@ import { toast } from "@/hooks/use-toast";
 import {
   ArrowRight, Zap, Target, Sparkles, Search, Code2, Layout,
   RefreshCw, Gauge, TrendingUp, Check, Mail, Phone, MapPin,
-  Github, Linkedin, Twitter, Star,
+  Github, Linkedin, Twitter, Star, Loader2,
 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import project1 from "@/assets/project-1.jpg";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
+
+/** Inbox for contact form deliveries (FormSubmit AJAX). */
+const CONTACT_INBOX = "hello@buildwebsites.pt";
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`;
 
 const pillars = [
   { icon: Zap, title: "Sites Rápidos", desc: "Performance otimizada. Cada milissegundo conta para SEO e conversão." },
@@ -71,15 +75,46 @@ const Nav = () => (
 
 const Index = () => {
   const [form, setForm] = useState({ nome: "", email: "", tipo: "", mensagem: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.email.trim() || !form.mensagem.trim()) {
       toast({ title: "Campos em falta", description: "Preencha nome, email e mensagem.", variant: "destructive" });
       return;
     }
-    toast({ title: "Pedido enviado ✓", description: "Entraremos em contacto em menos de 24h." });
-    setForm({ nome: "", email: "", tipo: "", mensagem: "" });
+    setSubmitting(true);
+    try {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.nome,
+          email: form.email,
+          _subject: `[BuildWeb] Pedido de orçamento — ${form.tipo.trim() || "geral"}`,
+          message: [form.tipo.trim() && `Tipo de projeto: ${form.tipo}`, "", form.mensagem.trim()]
+            .filter(Boolean)
+            .join("\n"),
+        }),
+      });
+      const data: { success?: boolean; message?: string } = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) {
+        throw new Error(typeof data.message === "string" ? data.message : "Não foi possível enviar o pedido.");
+      }
+      toast({ title: "Pedido enviado ✓", description: "Entraremos em contacto em menos de 24h." });
+      setForm({ nome: "", email: "", tipo: "", mensagem: "" });
+    } catch (err) {
+      toast({
+        title: "Erro ao enviar",
+        description:
+          err instanceof Error
+            ? err.message
+            : `Tente novamente ou escreva para ${CONTACT_INBOX}.`,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -292,7 +327,7 @@ const Index = () => {
               </p>
               <div className="space-y-5">
                 {[
-                  { icon: Mail, text: "hello@buildwebsites.pt" },
+                  { icon: Mail, text: CONTACT_INBOX, href: `mailto:${CONTACT_INBOX}` },
                   { icon: Phone, text: "+351 931 407 986" },
                   { icon: MapPin, text: "Porto, Portugal" },
                 ].map((c) => (
@@ -300,7 +335,13 @@ const Index = () => {
                     <div className="w-10 h-10 rounded-lg glass flex items-center justify-center">
                       <c.icon className="w-4 h-4 text-primary" />
                     </div>
-                    <span className="text-foreground/90">{c.text}</span>
+                    {"href" in c && c.href ? (
+                      <a href={c.href} className="text-foreground/90 hover:text-primary transition-colors">
+                        {c.text}
+                      </a>
+                    ) : (
+                      <span className="text-foreground/90">{c.text}</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -346,8 +387,21 @@ const Index = () => {
                             onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
                             className="bg-secondary/50 border-white/10" placeholder="Conte-nos sobre o seu projeto…" />
                 </div>
-                <Button type="submit" size="lg" className="w-full bg-gradient-primary hover:opacity-90 shadow-glow border-0 h-12">
-                  Enviar pedido <ArrowRight className="ml-2 h-4 w-4" />
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={submitting}
+                  className="w-full bg-gradient-primary hover:opacity-90 shadow-glow border-0 h-12"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> A enviar…
+                    </>
+                  ) : (
+                    <>
+                      Enviar pedido <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               </form>
             </Card>
