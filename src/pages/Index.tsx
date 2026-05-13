@@ -114,15 +114,21 @@ const Index = () => {
         });
         data = await res.json().catch(() => ({}));
       } else {
+        // FormSubmit often omits fields in notification emails when using JSON; urlencoded matches their HTML/AJAX examples.
+        const params = new URLSearchParams();
+        params.set("name", form.nome.trim());
+        params.set("email", form.email.trim());
+        params.set("message", messageBody);
+        params.set("_subject", subject);
+        params.set("_template", "table");
+
         res = await fetch(FORMSUBMIT_ENDPOINT, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            name: form.nome.trim(),
-            email: form.email.trim(),
-            _subject: subject,
-            message: messageBody,
-          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          },
+          body: params.toString(),
         });
         data = await res.json().catch(() => ({}));
       }
