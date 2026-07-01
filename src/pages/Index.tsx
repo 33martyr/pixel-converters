@@ -214,8 +214,8 @@ const PROJECTS: Project[] = [
     kind: "SaaS · Landing",
   },
   {
-    title: "Fly by Flavor",
-    url: "flybyflavor.com",
+    title: "Restaurante Template",
+    url: "restaurante.buildwebsites.pt",
     href: "https://restaurante.buildwebsites.pt",
     palette: ["#F4E7D3", "#C0392B"],
     kind: "Restaurante · Menu",
