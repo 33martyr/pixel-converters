@@ -7,7 +7,7 @@ import {
 /* ------------------------------------------------------------------ */
 /* Config                                                              */
 /* ------------------------------------------------------------------ */
-const WHATSAPP_NUMBER = "351910000000"; // placeholder — troca pelo número real
+const WHATSAPP_NUMBER = "351934484781"; // placeholder — troca pelo número real
 const WHATSAPP_MSG = encodeURIComponent(
   "Olá! Vi o vosso site e queria pedir um orçamento para o meu negócio."
 );
@@ -216,7 +216,7 @@ const PROJECTS: Project[] = [
   {
     title: "Fly by Flavor",
     url: "flybyflavor.com",
-    href: "https://fly-by-flavor-web.lovable.app",
+    href: "https://restaurante.buildwebsites.pt",
     palette: ["#F4E7D3", "#C0392B"],
     kind: "Restaurante · Menu",
   },
@@ -570,8 +570,8 @@ const Index = () => {
           </div>
 
           <div className="mono text-xs text-muted-foreground">
-            © {year} · NIF 000 000 000
-          </div>
+      © {year} BuildWeb Studio
+        </div>
         </div>
       </footer>
     </div>
