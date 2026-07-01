@@ -57,19 +57,29 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        azulejo: {
+          DEFAULT: "hsl(var(--azulejo))",
+          deep: "hsl(var(--azulejo-deep))",
+        },
+        mustard: "hsl(var(--mustard))",
+        porcelana: "hsl(var(--porcelana))",
+        whatsapp: {
+          DEFAULT: "hsl(var(--whatsapp))",
+          foreground: "hsl(var(--whatsapp-foreground))",
+        },
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', "Inter", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      backgroundImage: {
-        "gradient-primary": "var(--gradient-primary)",
-        "gradient-card": "var(--gradient-card)",
-      },
       boxShadow: {
-        glow: "var(--shadow-glow)",
-        elegant: "var(--shadow-elegant)",
+        tile: "var(--shadow-tile)",
         card: "var(--shadow-card)",
       },
       keyframes: {
