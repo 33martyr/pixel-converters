@@ -1,502 +1,576 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
 import {
-  ArrowRight, Zap, Target, Sparkles, Search, Code2, Layout,
-  RefreshCw, Gauge, TrendingUp, Check, Mail, Phone, MapPin,
-  Github, Linkedin, Twitter, Star, Loader2,
+  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles,
 } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
-import project1 from "@/assets/project-1.jpg";
-import project2 from "@/assets/project-2.jpg";
-import project3 from "@/assets/project-3.jpg";
 
-/** Inbox for contact form deliveries. */
-const CONTACT_INBOX = "hello@buildwebsites.pt";
-/** FormSubmit expects the raw address in the path (not %40-encoded). */
-const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_INBOX}`;
+/* ------------------------------------------------------------------ */
+/* Config                                                              */
+/* ------------------------------------------------------------------ */
+const WHATSAPP_NUMBER = "351910000000"; // placeholder — troca pelo número real
+const WHATSAPP_MSG = encodeURIComponent(
+  "Olá! Vi o vosso site e queria pedir um orçamento para o meu negócio."
+);
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`;
 
-/** FormSubmit / Web3Forms return `success` as boolean or string. */
-function isFormSuccess(data: { success?: unknown }): boolean {
-  return data.success === true || data.success === "true";
-}
-
-const pillars = [
-  { icon: Zap, title: "Sites Rápidos", desc: "Performance otimizada. Cada milissegundo conta para SEO e conversão." },
-  { icon: Sparkles, title: "Design Premium", desc: "Estética sofisticada que transmite confiança e autoridade." },
-  { icon: Target, title: "Foco em Conversão", desc: "Cada secção pensada para transformar visitantes em clientes." },
-  { icon: Search, title: "SEO de Base", desc: "Estrutura técnica preparada para o Google encontrar o seu negócio." },
-];
-
-const services = [
-  { icon: Code2, title: "Criação de Websites", desc: "Sites institucionais e e-commerce desenhados à medida do seu negócio." },
-  { icon: Layout, title: "Landing Pages", desc: "Páginas de alta conversão para campanhas e lançamentos." },
-  { icon: RefreshCw, title: "Redesign de Sites", desc: "Modernizamos o seu site para refletir a qualidade da sua marca." },
-  { icon: Gauge, title: "Otimização de Performance", desc: "Aceleramos sites lentos para Core Web Vitals de topo." },
-  { icon: Search, title: "SEO Técnico", desc: "Otimização on-page para subir nos resultados de pesquisa." },
-  { icon: TrendingUp, title: "CRO & Análise", desc: "Análise de funil e melhorias contínuas para mais leads." },
-];
-
-const projects = [
-  { img: project1, title: "Plataforma de Software", category: "Web App", href: "https://phase.uno" },
-  { img: project2, title: "Dashboard SaaS", category: "Plataforma Digital", href: "https://endpoint.digital" },
-  { img: project3, title: "Restaurante Boutique", category: "Website", href: "https://restaurante.buildwebsites.pt/" },
-];
-
-const steps = [
-  { n: "01", title: "Briefing", desc: "Mergulhamos no seu negócio, objetivos e público." },
-  { n: "02", title: "Design", desc: "Protótipos visuais alinhados com a sua marca." },
-  { n: "03", title: "Desenvolvimento", desc: "Código limpo, rápido e otimizado para conversão." },
-  { n: "04", title: "Entrega & Crescimento", desc: "Lançamento, formação e suporte contínuo." },
-];
-
-const testimonials = [
-  { name: "Inês Marques", role: "CEO, Studio Norte", quote: "Triplicámos o número de pedidos de orçamento no primeiro mês após o lançamento. Profissionalismo absoluto." },
-  { name: "Tiago Almeida", role: "Founder, Lumen SaaS", quote: "O melhor investimento do ano. Site rápido, lindo e que finalmente converte como devia." },
-  { name: "Sara Oliveira", role: "Diretora, Boutique Sara", quote: "Perceberam o nosso negócio melhor do que qualquer outra agência. Resultados reais, não promessas." },
-];
-
+/* ------------------------------------------------------------------ */
+/* Nav                                                                 */
+/* ------------------------------------------------------------------ */
 const Nav = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 glass">
+  <nav className="fixed top-0 inset-x-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
     <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#top" className="flex items-center gap-2 font-bold text-lg">
-        <div className="w-8 h-8 rounded-lg bg-gradient-primary shadow-glow" />
-        <span className="glow-text">BuildWeb</span>
+      <a href="#top" className="flex items-center gap-2.5 font-display font-semibold text-lg">
+        <span className="relative inline-flex w-8 h-8 rounded-md bg-azulejo items-center justify-center">
+          <span className="absolute inset-1 rounded-sm border border-mustard/70" />
+          <span className="relative text-mustard font-mono text-sm">B</span>
+        </span>
+        <span>BuildWeb <span className="text-muted-foreground font-normal">Studio</span></span>
       </a>
-      <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-        <a href="#servicos" className="hover:text-foreground transition-colors">Serviços</a>
-        <a href="#portfolio" className="hover:text-foreground transition-colors">Portfólio</a>
-        <a href="#processo" className="hover:text-foreground transition-colors">Processo</a>
-        <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
+      <div className="hidden md:flex items-center gap-8 text-sm">
+        <a href="#como" className="hover:text-azulejo transition-colors">Como funciona</a>
+        <a href="#portfolio" className="hover:text-azulejo transition-colors">Portfólio</a>
+        <a href="#precos" className="hover:text-azulejo transition-colors">Preços</a>
       </div>
-      <Button asChild variant="default" size="sm" className="bg-gradient-primary hover:opacity-90 shadow-glow border-0">
-        <a href="#contacto">Pedir Orçamento</a>
+      <Button asChild size="sm" className="btn-whatsapp gap-2 h-10 px-4">
+        <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <MessageCircle className="w-4 h-4" /> WhatsApp
+        </a>
       </Button>
     </div>
   </nav>
 );
 
-const Index = () => {
-  const [form, setForm] = useState({ nome: "", email: "", tipo: "", mensagem: "" });
-  const [submitting, setSubmitting] = useState(false);
+/* ------------------------------------------------------------------ */
+/* Build-log terminal → browser mockup                                 */
+/* ------------------------------------------------------------------ */
+type LogLine = { t: string; tone?: "dim" | "ok" | "accent" | "cmd" };
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.nome.trim() || !form.email.trim() || !form.mensagem.trim()) {
-      toast({ title: "Campos em falta", description: "Preencha nome, email e mensagem.", variant: "destructive" });
-      return;
-    }
-    setSubmitting(true);
-    try {
-      const subject = `[BuildWeb] Pedido de orçamento — ${form.tipo.trim() || "geral"}`;
-      const lines: string[] = [
-        `Nome: ${form.nome.trim()}`,
-        `Email: ${form.email.trim()}`,
-      ];
-      if (form.tipo.trim()) lines.push(`Tipo de projeto: ${form.tipo.trim()}`);
-      lines.push("", form.mensagem.trim());
-      const messageBody = lines.join("\n");
+const BUILD_LOG: LogLine[] = [
+  { t: "$ buildweb init --client=cafe-do-porto", tone: "cmd" },
+  { t: "→ Briefing recebido (12 min)", tone: "dim" },
+  { t: "✓ Estrutura de páginas definida", tone: "ok" },
+  { t: "$ buildweb design --style=azulejo", tone: "cmd" },
+  { t: "→ Paleta, tipografia, componentes", tone: "dim" },
+  { t: "✓ Design aprovado", tone: "ok" },
+  { t: "$ buildweb build --ai=on", tone: "cmd" },
+  { t: "  compiling pages ......... 8/8", tone: "dim" },
+  { t: "  otimizando imagens ...... 100%", tone: "dim" },
+  { t: "  a11y check .............. pass", tone: "dim" },
+  { t: "  lighthouse .............. 98", tone: "accent" },
+  { t: "✓ Site pronto em 4 dias", tone: "ok" },
+  { t: "$ buildweb deploy --live", tone: "cmd" },
+  { t: "→ https://cafedoporto.pt", tone: "accent" },
+];
 
-      const web3Key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
-      let data: { success?: unknown; message?: string };
-      let res: Response;
+function useTypedLog(lines: LogLine[]) {
+  const [visible, setVisible] = useState<{ idx: number; text: string }[]>([]);
+  const [done, setDone] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-      const payload = {
-        nome: form.nome.trim(),
-        email: form.email.trim(),
-        tipo: form.tipo.trim(),
-        mensagem: form.mensagem.trim(),
-      };
+  useEffect(() => {
+    let i = 0;
+    let j = 0;
+    let cancelled = false;
 
-      if (web3Key) {
-        res = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            access_key: web3Key,
-            subject,
-            from_name: payload.nome,
-            email: payload.email,
-            message: messageBody,
-          }),
+    function tick() {
+      if (cancelled) return;
+      if (i >= lines.length) {
+        setDone(true);
+        return;
+      }
+      const current = lines[i];
+      if (j <= current.t.length) {
+        setVisible((v) => {
+          const copy = [...v];
+          copy[i] = { idx: i, text: current.t.slice(0, j) };
+          return copy;
         });
-        data = await res.json().catch(() => ({}));
+        j += Math.max(1, Math.floor(current.t.length / 22));
+        setTimeout(tick, current.tone === "cmd" ? 22 : 14);
       } else {
-        let usedNetlifyProxy = false;
-        try {
-          const fnRes = await fetch("/.netlify/functions/contact-form", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(payload),
-          });
-          if (fnRes.status !== 404) {
-            usedNetlifyProxy = true;
-            res = fnRes;
-            data = await fnRes.json().catch(() => ({}));
-          }
-        } catch {
-          // Dev / non-Netlify host: fall through to direct FormSubmit
-        }
-
-        if (!usedNetlifyProxy) {
-          const fd = new FormData();
-          fd.append("name", payload.nome);
-          fd.append("email", payload.email);
-          fd.append("message", messageBody);
-          fd.append("_subject", subject);
-
-          res = await fetch(FORMSUBMIT_ENDPOINT, {
-            method: "POST",
-            headers: { Accept: "application/json" },
-            body: fd,
-          });
-          const raw = await res.text();
-          try {
-            data = JSON.parse(raw) as { success?: unknown; message?: string };
-          } catch {
-            data = {};
-          }
-          if (Object.keys(data).length === 0 && raw.trim().length > 0) {
-            throw new Error("O serviço de email devolveu uma resposta inesperada. Tente de novo daqui a pouco.");
-          }
-        }
+        i += 1;
+        j = 0;
+        setTimeout(tick, current.tone === "ok" ? 220 : 90);
       }
-
-      if (!res.ok || !isFormSuccess(data)) {
-        const msg =
-          typeof data.message === "string" && data.message.length > 0
-            ? data.message
-            : "Não foi possível enviar o pedido.";
-        throw new Error(msg);
-      }
-      toast({ title: "Pedido enviado ✓", description: "Entraremos em contacto em menos de 24h." });
-      setForm({ nome: "", email: "", tipo: "", mensagem: "" });
-    } catch (err) {
-      toast({
-        title: "Erro ao enviar",
-        description:
-          err instanceof Error
-            ? err.message
-            : `Tente novamente ou escreva para ${CONTACT_INBOX}.`,
-        variant: "destructive",
-      });
-    } finally {
-      setSubmitting(false);
     }
-  };
+    const start = setTimeout(tick, 400);
+    return () => {
+      cancelled = true;
+      clearTimeout(start);
+    };
+  }, [lines]);
+
+  useEffect(() => {
+    if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
+  }, [visible]);
+
+  return { visible, done, ref };
+}
+
+const toneClass = (tone?: LogLine["tone"]) =>
+  tone === "cmd" ? "text-porcelana"
+    : tone === "ok" ? "text-emerald-400"
+    : tone === "accent" ? "text-mustard"
+    : "text-porcelana/60";
+
+const BuildLogHero = () => {
+  const { visible, done, ref } = useTypedLog(BUILD_LOG);
+  const activeIdx = visible.length - 1;
 
   return (
-    <div id="top" className="min-h-screen">
+    <div className="relative">
+      {/* Terminal */}
+      <div className="browser-frame bg-azulejo-deep border-azulejo-deep">
+        <div className="browser-chrome bg-azulejo border-b border-azulejo-deep">
+          <span className="browser-dot bg-red-400/80" />
+          <span className="browser-dot bg-amber-400/80" />
+          <span className="browser-dot bg-emerald-400/80" />
+          <span className="mono ml-3 text-[11px] text-porcelana/60">buildweb — zsh</span>
+        </div>
+        <div
+          ref={ref}
+          className="mono text-[12.5px] md:text-sm leading-relaxed p-5 h-[320px] md:h-[360px] overflow-hidden bg-azulejo-deep"
+        >
+          {visible.map((line, i) => {
+            const spec = BUILD_LOG[line.idx];
+            const isTyping = i === activeIdx && !done;
+            return (
+              <div key={i} className={`${toneClass(spec.tone)} whitespace-pre`}>
+                {line.text}
+                {isTyping && <span className="animate-caret" aria-hidden />}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Browser reveal */}
+      <div
+        className={`browser-frame mt-4 md:mt-5 transition-all duration-700 ${
+          done ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
+        <div className="browser-chrome">
+          <span className="browser-dot bg-red-400/70" />
+          <span className="browser-dot bg-amber-400/70" />
+          <span className="browser-dot bg-emerald-400/70" />
+          <span className="mono ml-3 text-[11px] text-muted-foreground truncate">cafedoporto.pt</span>
+        </div>
+        <div className="relative aspect-[16/9] bg-porcelana overflow-hidden">
+          {/* Mini site mockup */}
+          <div className="absolute inset-0 flex flex-col">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-5 rounded-sm bg-azulejo" />
+                <span className="font-display text-xs font-semibold">Café do Porto</span>
+              </div>
+              <div className="hidden sm:flex gap-3 text-[10px] text-muted-foreground">
+                <span>Menu</span><span>Reservas</span><span>Contactos</span>
+              </div>
+              <span className="text-[10px] mono bg-mustard text-azulejo px-2 py-0.5 rounded">Reservar</span>
+            </div>
+            <div className="flex-1 grid grid-cols-5 gap-3 p-5">
+              <div className="col-span-3 flex flex-col justify-center gap-2">
+                <div className="h-2.5 w-24 rounded bg-mustard" />
+                <div className="h-4 w-full rounded bg-azulejo/90" />
+                <div className="h-4 w-3/4 rounded bg-azulejo/70" />
+                <div className="h-2 w-full rounded bg-muted mt-1" />
+                <div className="h-2 w-5/6 rounded bg-muted" />
+                <div className="mt-2 flex gap-2">
+                  <span className="h-5 w-20 rounded bg-azulejo" />
+                  <span className="h-5 w-16 rounded border border-azulejo/40" />
+                </div>
+              </div>
+              <div className="col-span-2 rounded-md bg-azulejo relative overflow-hidden">
+                <div className="absolute inset-0 opacity-40" style={{
+                  backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--mustard)/0.3) 0 6px, transparent 6px 12px)"
+                }} />
+                <div className="absolute bottom-2 left-2 text-[9px] mono text-mustard">98/100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating status badge */}
+      <div className="absolute -top-3 -right-3 md:-top-4 md:-right-4 bg-mustard text-azulejo mono text-[11px] font-semibold px-3 py-1.5 rounded-full shadow-tile">
+        {done ? "● live" : "● building"}
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* Portfolio mockups (inline SVG-like divs, no external images)        */
+/* ------------------------------------------------------------------ */
+type Project = { title: string; url: string; href: string; palette: [string, string]; kind: string };
+
+const PROJECTS: Project[] = [
+  {
+    title: "Endpoint Digital",
+    url: "endpoint.digital",
+    href: "https://endpoint.digital",
+    palette: ["#0B0F1A", "#00D4FF"],
+    kind: "SaaS · Landing",
+  },
+  {
+    title: "Fly by Flavor",
+    url: "flybyflavor.com",
+    href: "https://fly-by-flavor-web.lovable.app",
+    palette: ["#F4E7D3", "#C0392B"],
+    kind: "Restaurante · Menu",
+  },
+];
+
+const ProjectCard = ({ p }: { p: Project }) => (
+  <a
+    href={p.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group block browser-frame hover:-translate-y-1 hover:shadow-tile transition-all duration-500"
+  >
+    <div className="browser-chrome">
+      <span className="browser-dot bg-red-400/70" />
+      <span className="browser-dot bg-amber-400/70" />
+      <span className="browser-dot bg-emerald-400/70" />
+      <span className="mono ml-3 text-[11px] text-muted-foreground">{p.url}</span>
+    </div>
+    <div
+      className="aspect-[4/3] relative overflow-hidden"
+      style={{ backgroundColor: p.palette[0] }}
+    >
+      <div
+        className="absolute inset-0 opacity-90"
+        style={{
+          backgroundImage: `radial-gradient(circle at 30% 20%, ${p.palette[1]}55, transparent 55%), radial-gradient(circle at 80% 80%, ${p.palette[1]}33, transparent 60%)`,
+        }}
+      />
+      <div className="absolute inset-x-6 top-8 space-y-2">
+        <div className="h-2 w-14 rounded" style={{ backgroundColor: p.palette[1] }} />
+        <div className="h-5 w-4/5 rounded" style={{ backgroundColor: `${p.palette[1]}bb` }} />
+        <div className="h-5 w-3/5 rounded" style={{ backgroundColor: `${p.palette[1]}77` }} />
+      </div>
+      <div className="absolute inset-x-6 bottom-6 flex gap-2">
+        <span className="h-6 w-20 rounded" style={{ backgroundColor: p.palette[1] }} />
+        <span className="h-6 w-16 rounded border" style={{ borderColor: `${p.palette[1]}88` }} />
+      </div>
+    </div>
+    <div className="p-5 flex items-center justify-between">
+      <div>
+        <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{p.kind}</p>
+        <h3 className="font-display font-semibold text-lg mt-1">{p.title}</h3>
+      </div>
+      <span className="inline-flex items-center gap-1.5 text-sm font-medium text-azulejo group-hover:text-mustard transition-colors">
+        ver site <ArrowRight className="w-4 h-4" />
+      </span>
+    </div>
+  </a>
+);
+
+/* ------------------------------------------------------------------ */
+/* Data                                                                */
+/* ------------------------------------------------------------------ */
+const STEPS = [
+  {
+    n: "01",
+    title: "Briefing rápido",
+    desc: "Uma chamada de 20 minutos para perceber o teu negócio, objetivos e estilo. Sem formulários intermináveis.",
+  },
+  {
+    n: "02",
+    title: "Build assistido por IA",
+    desc: "Construímos o site em dias, não em meses. Ferramentas modernas + revisão humana em cada detalhe.",
+  },
+  {
+    n: "03",
+    title: "Entrega + revisão",
+    desc: "Recebes o site pronto, fazemos ajustes contigo e colocamos online. Formação incluída.",
+  },
+];
+
+const PRICING = [
+  {
+    tag: "Landing Page",
+    price: "250€",
+    tagline: "1 página, tudo que precisas para converter.",
+    features: [
+      "1 página com todas as secções",
+      "Formulário + WhatsApp",
+      "SEO base + Analytics",
+      "Entrega em 3 dias",
+    ],
+  },
+  {
+    tag: "Site Institucional",
+    price: "500€",
+    tagline: "Para negócios que querem uma presença completa.",
+    features: [
+      "Até 5 páginas",
+      "Design à medida",
+      "Blog / notícias (opcional)",
+      "SEO técnico + Analytics",
+      "Entrega em 5-7 dias",
+    ],
+    featured: true,
+  },
+  {
+    tag: "Loja Online",
+    price: "desde 900€",
+    tagline: "Vende os teus produtos online, sem complicações.",
+    features: [
+      "Catálogo + carrinho",
+      "Pagamentos Stripe/MB Way",
+      "Gestão de encomendas",
+      "Formação incluída",
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                */
+/* ------------------------------------------------------------------ */
+const Index = () => {
+  const year = useMemo(() => new Date().getFullYear(), []);
+
+  return (
+    <div id="top" className="min-h-screen bg-background">
       <Nav />
 
       {/* HERO */}
-      <header className="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden">
-        <img src={heroBg} alt="" width={1920} height={1080}
-             className="absolute inset-0 w-full h-full object-cover opacity-40 -z-10" />
-        <div className="absolute inset-0 grid-pattern opacity-20 -z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background -z-10" />
+      <header className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+        <div className="absolute inset-0 tile-grid opacity-60 -z-10" />
+        <div className="absolute top-0 right-0 w-[520px] h-[520px] bg-mustard/10 blur-3xl rounded-full -z-10" />
 
         <div className="container mx-auto px-6 relative">
-          <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-8 text-xs uppercase tracking-widest text-muted-foreground">
-              <span className="w-2 h-2 rounded-full bg-primary animate-glow-pulse" />
-              Agência de websites de alta performance
-            </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-8">
-              Websites que <span className="glow-text">convertem</span> visitantes em clientes.
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-              Não criamos sites bonitos. Criamos máquinas de vendas — rápidas, otimizadas e pensadas
-              para gerar resultados reais para o seu negócio.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow border-0 h-14 px-8 text-base">
-                <a href="#contacto">Pedir Orçamento <ArrowRight className="ml-2 h-4 w-4" /></a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="h-14 px-8 text-base glass border-white/10">
-                <a href="#portfolio">Ver Projetos</a>
-              </Button>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="lg:col-span-6 animate-fade-in-up">
+              <div className="inline-flex items-center gap-2 mono text-[11px] uppercase tracking-widest text-azulejo bg-mustard/20 border border-mustard/40 px-3 py-1.5 rounded-full mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-mustard" />
+                BuildWeb Studio · Porto, PT
+              </div>
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight text-azulejo mb-6">
+                O teu site,{" "}
+                <span className="accent-underline">esta semana</span>.
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-8">
+                Sites profissionais para pequenos negócios, entregues em dias e a preço justo.
+                Rápidos, responsivos, feitos para trazer clientes — não para ficar bonitos na gaveta.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button asChild size="lg" className="btn-whatsapp h-14 px-7 text-base gap-2 shadow-tile">
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="w-5 h-5" /> Falar no WhatsApp
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="h-14 px-7 text-base border-azulejo/30 text-azulejo hover:bg-azulejo hover:text-porcelana">
+                  <a href="#portfolio">Ver trabalhos</a>
+                </Button>
+              </div>
+
+              <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+                {["Entrega em 3–7 dias", "Preços fixos, sem surpresas", "100% responsivo"].map((k) => (
+                  <div key={k} className="flex items-center gap-2 text-muted-foreground">
+                    <Check className="w-4 h-4 text-mustard" /> {k}
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-20 grid grid-cols-3 gap-6 max-w-2xl mx-auto text-left">
-              {[
-                { k: "120+", v: "Projetos entregues" },
-                { k: "98%", v: "PageSpeed médio" },
-                { k: "3.4×", v: "Aumento médio de leads" },
-              ].map((s) => (
-                <div key={s.v} className="glass rounded-xl p-5">
-                  <div className="text-3xl md:text-4xl font-bold glow-text">{s.k}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{s.v}</div>
-                </div>
-              ))}
+            <div className="lg:col-span-6">
+              <BuildLogHero />
             </div>
           </div>
         </div>
       </header>
 
-      {/* PILARES */}
-      <section className="py-24 md:py-32">
+      {/* COMO FUNCIONA */}
+      <section id="como" className="py-20 md:py-28 bg-secondary/40 border-y border-border">
         <div className="container mx-auto px-6">
-          <div className="max-w-2xl mb-16">
-            <p className="text-sm uppercase tracking-widest text-primary mb-4">Proposta de valor</p>
-            <h2 className="text-4xl md:text-5xl font-bold">O que torna os nossos sites diferentes.</h2>
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Como funciona</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+              Três passos. Sem tretas.
+            </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((p, i) => (
-              <Card key={p.title} className="glass border-white/5 p-8 hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 group"
-                    style={{ animationDelay: `${i * 100}ms` }}>
-                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-6 shadow-glow group-hover:scale-110 transition-transform">
-                  <p.icon className="w-6 h-6 text-primary-foreground" />
+          <div className="grid md:grid-cols-3 gap-5">
+            {STEPS.map((s, i) => (
+              <div
+                key={s.n}
+                className="relative bg-card border border-border rounded-lg p-7 hover:border-mustard transition-colors"
+              >
+                <div className="flex items-baseline justify-between mb-6">
+                  <span className="mono text-sm text-mustard">{s.n}</span>
+                  <span className="mono text-[10px] text-muted-foreground">step_{i + 1}</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{p.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-              </Card>
+                <h3 className="font-display text-2xl text-azulejo mb-3">{s.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SERVIÇOS */}
-      <section id="servicos" className="py-24 md:py-32 relative">
+      {/* PORTFOLIO */}
+      <section id="portfolio" className="py-20 md:py-28">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
             <div className="max-w-2xl">
-              <p className="text-sm uppercase tracking-widest text-primary mb-4">Serviços</p>
-              <h2 className="text-4xl md:text-5xl font-bold">Tudo o que o seu negócio precisa online.</h2>
+              <p className="mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Portfólio</p>
+              <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+                Trabalhos recentes.
+              </h2>
             </div>
-            <p className="text-muted-foreground max-w-md">
-              Soluções completas para presença digital — do primeiro pixel ao primeiro cliente.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden">
-            {services.map((s) => (
-              <div key={s.title} className="bg-background p-8 md:p-10 hover:bg-secondary/40 transition-colors group">
-                <s.icon className="w-8 h-8 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-semibold mb-3">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PORTFÓLIO */}
-      <section id="portfolio" className="py-24 md:py-32">
-  <div className="container mx-auto px-6">
-    <div className="max-w-2xl mb-16">
-      <p className="text-sm uppercase tracking-widest text-primary mb-4">Portfólio</p>
-      <h2 className="text-4xl md:text-5xl font-bold">Resultados que falam por nós.</h2>
-    </div>
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map((p) => (
-        <div key={p.title} className="relative group">
-          <Card className="glass border-white/5 overflow-hidden hover:shadow-elegant transition-all duration-500">
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <img src={p.img} alt={p.title} loading="lazy" width={1024} height={768}
-                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-            </div>
-            <div className="p-6">
-              <p className="text-xs uppercase tracking-wider text-primary mb-2">{p.category}</p>
-              <h3 className="text-xl font-semibold mb-3">{p.title}</h3>
-              <div className="flex items-center gap-2 text-sm font-medium text-primary">
-                Ver template <ArrowRight className="w-4 h-4" />
-              </div>
-            </div>
-          </Card>
-          <a href={p.href} target="_blank" rel="noopener noreferrer"
-             className="absolute inset-0 z-10" aria-label={p.title} />
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-      {/* PROCESSO */}
-      <section id="processo" className="py-24 md:py-32 relative">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mb-16">
-            <p className="text-sm uppercase tracking-widest text-primary mb-4">Processo</p>
-            <h2 className="text-4xl md:text-5xl font-bold">Simples. Transparente. Eficaz.</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((s, i) => (
-              <div key={s.n} className="relative">
-                <Card className="glass border-white/5 p-8 h-full hover:border-primary/40 transition-all">
-                  <div className="text-5xl font-bold glow-text mb-6">{s.n}</div>
-                  <h3 className="text-xl font-semibold mb-3">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground">{s.desc}</p>
-                </Card>
-                {i < steps.length - 1 && (
-                  <ArrowRight className="hidden lg:block absolute top-1/2 -right-5 w-6 h-6 text-primary/40 -translate-y-1/2" />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTEMUNHOS */}
-      <section className="py-24 md:py-32">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mb-16">
-            <p className="text-sm uppercase tracking-widest text-primary mb-4">Testemunhos</p>
-            <h2 className="text-4xl md:text-5xl font-bold">Clientes que crescem connosco.</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="glass border-white/5 p-8">
-                <div className="flex gap-1 mb-5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground/90 mb-6 leading-relaxed">"{t.quote}"</p>
-                <div>
-                  <div className="font-semibold">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.role}</div>
-                </div>
-              </Card>
-            ))}
+            {PROJECTS.map((p) => <ProjectCard key={p.url} p={p} />)}
+            {/* CTA card */}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative rounded-lg border-2 border-dashed border-azulejo/30 hover:border-mustard bg-secondary/30 hover:bg-mustard/10 transition-all p-8 flex flex-col justify-between min-h-[380px]"
+            >
+              <div className="mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                slot_disponível
+              </div>
+              <div>
+                <Sparkles className="w-8 h-8 text-mustard mb-4" />
+                <h3 className="font-display text-2xl text-azulejo mb-2 leading-tight">
+                  Sê o próximo caso de sucesso.
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  Espaço para o teu projeto aqui em breve.
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-2 font-medium text-azulejo group-hover:text-mustard transition-colors">
+                Começar projeto <ArrowRight className="w-4 h-4" />
+              </span>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 md:py-32">
+      {/* PREÇOS */}
+      <section id="precos" className="py-20 md:py-28 bg-secondary/40 border-y border-border">
         <div className="container mx-auto px-6">
-          <Card className="relative overflow-hidden border-white/5 p-12 md:p-20 text-center glass">
-            <div className="absolute inset-0 bg-gradient-primary opacity-10" />
-            <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/30 blur-3xl animate-glow-pulse" />
-            <div className="relative">
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 max-w-3xl mx-auto leading-tight">
-                Pronto para ter um site que <span className="glow-text">realmente gera clientes?</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+            <div className="max-w-2xl">
+              <p className="mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Preços</p>
+              <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+                Preços fixos. Sem letras pequenas.
               </h2>
-              <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
-                Marcamos uma conversa de 20 minutos. Sem compromisso, sem fluff.
-              </p>
-              <Button asChild size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow border-0 h-14 px-10 text-base">
-                <a href="#contacto">Pedir Orçamento <ArrowRight className="ml-2 h-4 w-4" /></a>
-              </Button>
             </div>
-          </Card>
+            <div className="mono text-xs bg-mustard text-azulejo px-3 py-1.5 rounded-full self-start md:self-end">
+              ● preços de lançamento
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {PRICING.map((p) => (
+              <div
+                key={p.tag}
+                className={`relative rounded-lg p-7 border transition-all ${
+                  p.featured
+                    ? "bg-azulejo text-porcelana border-azulejo shadow-tile md:-translate-y-3"
+                    : "bg-card border-border hover:border-azulejo/40"
+                }`}
+              >
+                {p.featured && (
+                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
+                    mais popular
+                  </span>
+                )}
+                <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
+                  {p.tag}
+                </div>
+                <div className="flex items-baseline gap-1 mb-3">
+                  <span className="font-display text-5xl">{p.price}</span>
+                </div>
+                <p className={`text-sm mb-6 ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>
+                  {p.tagline}
+                </p>
+                <ul className="space-y-2.5 mb-8">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
+                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  asChild
+                  className={`w-full h-12 gap-2 ${
+                    p.featured ? "bg-mustard text-azulejo hover:bg-mustard/90" : "btn-whatsapp"
+                  }`}
+                >
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="w-4 h-4" /> Pedir orçamento
+                  </a>
+                </Button>
+              </div>
+            ))}
+          </div>
+          <p className="mono text-xs text-center text-muted-foreground mt-10">
+            valores + IVA · alojamento e domínio não incluídos · manutenção opcional
+          </p>
         </div>
       </section>
 
-      {/* CONTACTO */}
-      <section id="contacto" className="py-24 md:py-32">
+      {/* CTA FINAL */}
+      <section className="py-20 md:py-28">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
-            <div>
-              <p className="text-sm uppercase tracking-widest text-primary mb-4">Contacto</p>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Vamos falar do seu projeto.</h2>
-              <p className="text-muted-foreground mb-10">
-                Resposta em menos de 24h. Orçamento personalizado e gratuito.
-              </p>
-              <div className="space-y-5">
-                {[
-                  { icon: Mail, text: CONTACT_INBOX, href: `mailto:${CONTACT_INBOX}` },
-                  { icon: Phone, text: "+351 931 407 986" },
-                  { icon: MapPin, text: "Porto, Portugal" },
-                ].map((c) => (
-                  <div key={c.text} className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg glass flex items-center justify-center">
-                      <c.icon className="w-4 h-4 text-primary" />
-                    </div>
-                    {"href" in c && c.href ? (
-                      <a href={c.href} className="text-foreground/90 hover:text-primary transition-colors">
-                        {c.text}
-                      </a>
-                    ) : (
-                      <span className="text-foreground/90">{c.text}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-10 space-y-3">
-                {["Sem custos escondidos", "Entrega no prazo combinado", "Suporte pós-lançamento"].map((b) => (
-                  <div key={b} className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary" /> {b}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Card className="glass border-white/5 p-8 md:p-10">
-              <form onSubmit={submit} className="space-y-5">
-                <div>
-                  <label className="text-sm mb-2 block text-muted-foreground">Nome</label>
-                  <Input value={form.nome} maxLength={100}
-                         onChange={(e) => setForm({ ...form, nome: e.target.value })}
-                         className="bg-secondary/50 border-white/10 h-12" placeholder="O seu nome" />
-                </div>
-                <div>
-                  <label className="text-sm mb-2 block text-muted-foreground">Email</label>
-                  <Input type="email" value={form.email} maxLength={255}
-                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                         className="bg-secondary/50 border-white/10 h-12" placeholder="email@empresa.com" />
-                </div>
-                <div>
-                  <label className="text-sm mb-2 block text-muted-foreground">Tipo de projeto</label>
-                  <select value={form.tipo}
-                          onChange={(e) => setForm({ ...form, tipo: e.target.value })}
-                          className="w-full bg-secondary/50 border border-white/10 rounded-md h-12 px-3 text-sm">
-                    <option value="">Selecione…</option>
-                    <option>Website institucional</option>
-                    <option>E-commerce</option>
-                    <option>Landing page</option>
-                    <option>Redesign</option>
-                    <option>Outro</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-sm mb-2 block text-muted-foreground">Mensagem</label>
-                  <Textarea value={form.mensagem} maxLength={1000} rows={4}
-                            onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
-                            className="bg-secondary/50 border-white/10" placeholder="Conte-nos sobre o seu projeto…" />
-                </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={submitting}
-                  className="w-full bg-gradient-primary hover:opacity-90 shadow-glow border-0 h-12"
-                >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> A enviar…
-                    </>
-                  ) : (
-                    <>
-                      Enviar pedido <ArrowRight className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Card>
+          <div className="relative azulejo-pattern rounded-2xl overflow-hidden p-10 md:p-16 lg:p-20 text-center">
+            <div className="absolute inset-0 border-2 border-mustard/20 rounded-2xl pointer-events-none" />
+            <p className="mono text-xs uppercase tracking-[0.25em] text-mustard mb-5">
+              &gt; próximo passo
+            </p>
+            <h2 className="font-display text-4xl md:text-6xl text-porcelana max-w-3xl mx-auto mb-6 leading-[1.05]">
+              Um site que trabalha por ti, em <span className="text-mustard">dias</span>.
+            </h2>
+            <p className="text-porcelana/70 max-w-xl mx-auto mb-10 text-lg">
+              Sem formulários. Sem espera. Fala connosco no WhatsApp e recebes uma proposta em 24h.
+            </p>
+            <Button asChild size="lg" className="btn-whatsapp h-16 px-10 text-lg gap-3 shadow-tile">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="w-6 h-6" /> Falar no WhatsApp
+              </a>
+            </Button>
+            <p className="mono text-xs text-porcelana/50 mt-6">resposta média: &lt; 2h em dias úteis</p>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border/50 py-12">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2 font-bold">
-              <div className="w-8 h-8 rounded-lg bg-gradient-primary shadow-glow" />
-              <span className="glow-text">BuildWeb</span>
-            </div>
-            <p className="text-sm text-muted-foreground">© 2026 BuildWeb. Websites que vendem.</p>
-            <div className="flex gap-3">
-              {[Twitter, Linkedin, Github].map((I, i) => (
-                <a key={i} href="#" aria-label="social"
-                   className="w-10 h-10 rounded-lg glass flex items-center justify-center hover:border-primary/40 transition-colors">
-                  <I className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+      <footer className="border-t border-border py-10">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm">
+          <div className="flex items-center gap-2.5 font-display font-semibold">
+            <span className="relative inline-flex w-7 h-7 rounded-md bg-azulejo items-center justify-center">
+              <span className="text-mustard mono text-xs">B</span>
+            </span>
+            BuildWeb Studio
+            <span className="mono text-xs text-muted-foreground ml-2">Porto, PT</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground">
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-azulejo transition-colors">
+              <MessageCircle className="w-4 h-4" /> WhatsApp
+            </a>
+            <a href="mailto:ola@buildwebstudio.pt" className="flex items-center gap-1.5 hover:text-azulejo transition-colors">
+              <Mail className="w-4 h-4" /> ola@buildwebstudio.pt
+            </a>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="w-4 h-4" /> Porto
+            </span>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-azulejo transition-colors" aria-label="Instagram">
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-azulejo transition-colors" aria-label="LinkedIn">
+              <Linkedin className="w-4 h-4" />
+            </a>
+          </div>
+
+          <div className="mono text-xs text-muted-foreground">
+            © {year} · NIF 000 000 000
           </div>
         </div>
       </footer>

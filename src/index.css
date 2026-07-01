@@ -4,88 +4,129 @@
 
 @layer base {
   :root {
-    --background: 230 25% 5%;
-    --foreground: 210 40% 98%;
+    /* Porcelana / azulejo palette */
+    --background: 40 33% 97%;           /* #FAF7F2 porcelana */
+    --foreground: 218 56% 19%;          /* #14284A azulejo */
 
-    --card: 230 25% 7%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 218 56% 19%;
 
-    --popover: 230 25% 7%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 56% 19%;
 
-    --primary: 217 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 195 100% 60%;
+    --primary: 218 56% 19%;             /* azulejo #14284A */
+    --primary-foreground: 40 33% 97%;
 
-    --secondary: 230 20% 12%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 20% 92%;
+    --secondary-foreground: 218 56% 19%;
 
-    --muted: 230 20% 12%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 218 20% 40%;
 
-    --accent: 217 100% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 36 72% 56%;               /* mostarda #E3A23C */
+    --accent-foreground: 218 56% 19%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --whatsapp: 142 70% 40%;
+    --whatsapp-foreground: 0 0% 100%;
 
-    --border: 230 20% 15%;
-    --input: 230 20% 15%;
-    --ring: 217 100% 60%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.75rem;
+    --border: 218 20% 88%;
+    --input: 218 20% 88%;
+    --ring: 36 72% 56%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(217 100% 60%), hsl(195 100% 60%));
-    --gradient-hero: radial-gradient(ellipse at top, hsl(217 100% 60% / 0.15), transparent 60%), radial-gradient(ellipse at bottom right, hsl(280 100% 60% / 0.1), transparent 60%);
-    --gradient-card: linear-gradient(135deg, hsl(230 25% 8% / 0.8), hsl(230 25% 6% / 0.4));
-    --gradient-text: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 100% 70%));
+    --radius: 0.5rem;
 
-    --shadow-glow: 0 0 60px hsl(217 100% 60% / 0.4);
-    --shadow-elegant: 0 20px 60px -15px hsl(217 100% 30% / 0.5);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --azulejo: 218 56% 19%;
+    --azulejo-deep: 218 60% 12%;
+    --mustard: 36 72% 56%;
+    --porcelana: 40 33% 97%;
 
-    --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    --shadow-tile: 0 20px 40px -20px hsl(218 56% 19% / 0.25);
+    --shadow-card: 0 4px 20px -8px hsl(218 56% 19% / 0.15);
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
-    background-image: var(--gradient-hero);
-    background-attachment: fixed;
+    font-feature-settings: "ss01", "cv11";
   }
 
   h1, h2, h3, h4 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-feature-settings: "calt", "liga";
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--mustard));
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-card/40 backdrop-blur-xl border border-white/5;
-  }
-
-  .glow-text {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .grid-pattern {
+  /* Portuguese tile pattern — subtle azulejo motif */
+  .azulejo-pattern {
+    background-color: hsl(var(--azulejo));
     background-image:
-      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
-    background-size: 60px 60px;
+      radial-gradient(circle at 25% 25%, hsl(var(--mustard) / 0.08) 0, transparent 40%),
+      radial-gradient(circle at 75% 75%, hsl(var(--porcelana) / 0.06) 0, transparent 40%),
+      linear-gradient(45deg, transparent 48%, hsl(var(--porcelana) / 0.04) 49%, hsl(var(--porcelana) / 0.04) 51%, transparent 52%);
+    background-size: 60px 60px, 60px 60px, 24px 24px;
+  }
+
+  .tile-grid {
+    background-image:
+      linear-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Browser chrome frame */
+  .browser-frame {
+    @apply rounded-lg overflow-hidden border shadow-tile bg-card;
+  }
+  .browser-chrome {
+    @apply flex items-center gap-1.5 px-3 py-2.5 border-b bg-secondary/60;
+  }
+  .browser-dot { @apply w-2.5 h-2.5 rounded-full; }
+
+  .accent-underline {
+    background-image: linear-gradient(hsl(var(--mustard)), hsl(var(--mustard)));
+    background-repeat: no-repeat;
+    background-position: 0 92%;
+    background-size: 100% 0.28em;
+  }
+
+  .btn-whatsapp {
+    background-color: hsl(var(--whatsapp));
+    color: hsl(var(--whatsapp-foreground));
+  }
+  .btn-whatsapp:hover { background-color: hsl(142 70% 34%); }
+}
+
+@layer utilities {
+  .animate-caret::after {
+    content: "▊";
+    display: inline-block;
+    color: hsl(var(--mustard));
+    animation: caret-blink 1s steps(2) infinite;
+    margin-left: 2px;
+  }
+  @keyframes caret-blink {
+    50% { opacity: 0; }
   }
 }
