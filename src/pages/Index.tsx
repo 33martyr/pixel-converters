@@ -555,8 +555,8 @@ const Index = () => {
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-azulejo transition-colors">
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
-            <a href="mailto:ola@buildwebstudio.pt" className="flex items-center gap-1.5 hover:text-azulejo transition-colors">
-              <Mail className="w-4 h-4" /> ola@buildwebstudio.pt
+            <a href="mailto:hello@buildwebsites.pt" className="flex items-center gap-1.5 hover:text-azulejo transition-colors">
+              <Mail className="w-4 h-4" /> hello@buildwebsites.pt
             </a>
             <span className="flex items-center gap-1.5">
               <MapPin className="w-4 h-4" /> Porto
