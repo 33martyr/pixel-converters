@@ -561,11 +561,8 @@ const Index = () => {
             <span className="flex items-center gap-1.5">
               <MapPin className="w-4 h-4" /> Porto
             </span>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-azulejo transition-colors" aria-label="Instagram">
+            <a href="https://instagram.com/buildwebsites.pt" target="_blank" rel="noopener noreferrer" className="hover:text-azulejo transition-colors" aria-label="Instagram">
               <Instagram className="w-4 h-4" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-azulejo transition-colors" aria-label="LinkedIn">
-              <Linkedin className="w-4 h-4" />
             </a>
           </div>
 
