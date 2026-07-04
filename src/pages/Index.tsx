@@ -528,41 +528,51 @@ const Index = () => {
               Quem já trabalhou connosco.
             </h2>
           </div>
-          <div className={`grid gap-6 ${TESTIMONIALS.length === 1 ? "max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+          <div className={`grid gap-10 ${TESTIMONIALS.length === 1 ? "" : "md:grid-cols-2 lg:grid-cols-3"}`}>
             {TESTIMONIALS.map((t, i) => (
               <figure
                 key={i}
-                className="relative bg-card border border-border rounded-lg p-8 flex flex-col shadow-card"
+                className="relative grid md:grid-cols-12 gap-6 md:gap-10 items-start"
               >
-                <div className="flex gap-1 mb-5" aria-label="5 estrelas">
-                  {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className="w-4 h-4 fill-mustard text-mustard" />
-                  ))}
+                {/* Giant decorative quote */}
+                <div
+                  aria-hidden
+                  className="hidden md:block md:col-span-2 font-display text-azulejo/15 leading-none select-none"
+                  style={{ fontSize: "10rem" }}
+                >
+                  “
                 </div>
-                <blockquote className="font-display text-xl md:text-2xl text-azulejo leading-snug mb-6">
-                  “{t.quote}”
-                </blockquote>
-                <figcaption className="mt-auto flex items-center justify-between gap-3 flex-wrap">
-                  <div>
-                    <div className="font-semibold text-azulejo">{t.name}</div>
-                    <div className="text-sm text-muted-foreground">{t.role}</div>
+                <div className="md:col-span-10 max-w-3xl">
+                  <div className="flex gap-1 mb-5" aria-label="5 estrelas">
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star key={s} className="w-4 h-4 fill-mustard text-mustard" />
+                    ))}
                   </div>
-                  <a
-                    href={t.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs mono border border-border hover:border-mustard rounded-full px-3 py-1.5 transition-colors"
-                    aria-label="Ver review no Google"
-                  >
-                    <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" aria-hidden>
-                      <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.3 17.7 9.5 24 9.5z"/>
-                      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.5z"/>
-                      <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.7 0 20.2 0 24s1 7.3 2.6 10.8l7.9-6.1z"/>
-                      <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.8-13.5-9.3l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
-                    </svg>
-                    Google Review
-                  </a>
-                </figcaption>
+                  <blockquote className="font-display text-2xl md:text-3xl text-azulejo leading-snug mb-8">
+                    {t.quote}
+                  </blockquote>
+                  <figcaption className="flex items-center justify-between gap-4 flex-wrap border-t border-border pt-5">
+                    <div>
+                      <div className="font-semibold text-azulejo">— {t.name}</div>
+                      <div className="text-sm text-muted-foreground">{t.role}</div>
+                    </div>
+                    <a
+                      href={t.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs mono border border-border hover:border-mustard rounded-full px-3 py-1.5 transition-colors"
+                      aria-label="Ver review no Google"
+                    >
+                      <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" aria-hidden>
+                        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.3 17.7 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+                        <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.7 0 20.2 0 24s1 7.3 2.6 10.8l7.9-6.1z"/>
+                        <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.8-13.5-9.3l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+                      </svg>
+                      Google Review
+                    </a>
+                  </figcaption>
+                </div>
               </figure>
             ))}
           </div>
