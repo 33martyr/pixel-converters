@@ -4,7 +4,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles, Star,
+  ArrowRight, MessageCircle, Instagram, Mail, MapPin, Sparkles, Star,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -53,13 +53,13 @@ const BUILD_LOG: LogLine[] = [
   { t: "→ Briefing recebido (12 min)", tone: "dim" },
   { t: "✓ Estrutura de páginas definida", tone: "ok" },
   { t: "$ buildweb design --style=azulejo", tone: "cmd" },
-  { t: "→ Paleta, tipografia, componentes", tone: "dim" },
-  { t: "✓ Design aprovado", tone: "ok" },
-  { t: "$ buildweb build --ai=on", tone: "cmd" },
-  { t: "  compiling pages ......... 8/8", tone: "dim" },
-  { t: "  otimizando imagens ...... 100%", tone: "dim" },
-  { t: "  a11y check .............. pass", tone: "dim" },
-  { t: "  lighthouse .............. 98", tone: "accent" },
+  { t: "→ A escolher paleta e tipografia à mão", tone: "dim" },
+  { t: "✓ Design aprovado pelo cliente", tone: "ok" },
+  { t: "$ buildweb build", tone: "cmd" },
+  { t: "→ A codificar secções uma a uma", tone: "dim" },
+  { t: "→ Revisão manual de responsividade", tone: "dim" },
+  { t: "✓ a11y check ........... pass", tone: "ok" },
+  { t: "✓ lighthouse ............ 98", tone: "accent" },
   { t: "✓ Site pronto em 4 dias", tone: "ok" },
   { t: "$ buildweb deploy --live", tone: "cmd" },
   { t: "→ https://cafedoporto.pt", tone: "accent" },
@@ -147,20 +147,19 @@ const BuildLogHero = () => {
         </div>
       </div>
 
-      {/* Browser reveal */}
+      {/* Site reveal — simple shadowed card, no browser chrome */}
       <div
-        className={`browser-frame mt-4 md:mt-5 transition-all duration-700 ${
+        className={`mt-4 md:mt-5 rounded-lg overflow-hidden shadow-tile border border-border transition-all duration-700 ${
           done ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <div className="browser-chrome">
-          <span className="browser-dot bg-red-400/70" />
-          <span className="browser-dot bg-amber-400/70" />
-          <span className="browser-dot bg-emerald-400/70" />
-          <span className="mono ml-3 text-[11px] text-muted-foreground truncate">cafedoporto.pt</span>
+        <div className="flex items-center justify-between px-4 py-2.5 bg-card border-b border-border">
+          <span className="mono text-[11px] text-muted-foreground">cafedoporto.pt</span>
+          <span className="inline-flex items-center gap-1.5 mono text-[10px] text-emerald-600">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> live
+          </span>
         </div>
         <div className="relative aspect-[16/9] bg-porcelana overflow-hidden">
-          {/* Mini site mockup */}
           <div className="absolute inset-0 flex flex-col">
             <div className="flex items-center justify-between px-5 py-3 border-b border-border">
               <div className="flex items-center gap-2">
@@ -230,16 +229,14 @@ const ProjectCard = ({ p }: { p: Project }) => (
     href={p.href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group block browser-frame hover:-translate-y-1 hover:shadow-tile transition-all duration-500"
+    className="group block hover:-translate-y-1 transition-all duration-500"
   >
-    <div className="browser-chrome">
-      <span className="browser-dot bg-red-400/70" />
-      <span className="browser-dot bg-amber-400/70" />
-      <span className="browser-dot bg-emerald-400/70" />
-      <span className="mono ml-3 text-[11px] text-muted-foreground">{p.url}</span>
+    <div className="flex items-baseline justify-between mb-3">
+      <h3 className="font-display font-semibold text-lg text-azulejo">{p.title}</h3>
+      <span className="mono text-[11px] text-muted-foreground">{p.url}</span>
     </div>
     <div
-      className="aspect-[4/3] relative overflow-hidden"
+      className="aspect-[4/3] relative overflow-hidden rounded-lg border border-border shadow-card group-hover:shadow-tile transition-shadow"
       style={{ backgroundColor: p.palette[0] }}
     >
       <div
@@ -258,11 +255,8 @@ const ProjectCard = ({ p }: { p: Project }) => (
         <span className="h-6 w-16 rounded border" style={{ borderColor: `${p.palette[1]}88` }} />
       </div>
     </div>
-    <div className="p-5 flex items-center justify-between">
-      <div>
-        <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{p.kind}</p>
-        <h3 className="font-display font-semibold text-lg mt-1">{p.title}</h3>
-      </div>
+    <div className="pt-4 flex items-center justify-between">
+      <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{p.kind}</p>
       <span className="inline-flex items-center gap-1.5 text-sm font-medium text-azulejo group-hover:text-mustard transition-colors">
         ver site <ArrowRight className="w-4 h-4" />
       </span>
@@ -281,8 +275,8 @@ const STEPS = [
   },
   {
     n: "02",
-    title: "Build assistido por IA",
-    desc: "Construímos o site em dias, não em meses. Ferramentas modernas + revisão humana em cada detalhe.",
+    title: "Construção à mão",
+    desc: "Codificamos o teu site em dias, não em meses. Cada secção pensada e revista à mão, sem templates genéricos.",
   },
   {
     n: "03",
@@ -366,10 +360,10 @@ const MAINTENANCE = [
 const TESTIMONIALS = [
   {
     quote:
-      "Profissionalismo do início ao fim. Site entregue no prazo, exatamente como imaginei, e já começou a trazer contactos novos. Recomendo sem hesitar.",
-    name: "Cliente Satisfeito",
+      "Estou extremamente satisfeito com a criação do meu site pela BuildWeb Studio. Do início ao fim, todo o processo foi profissional e sem complicações. O resultado final superou as minhas expectativas — o site tem um aspeto moderno, limpo e visualmente apelativo, exatamente o que procurava. O design é contemporâneo e funciona na perfeição em qualquer dispositivo. Recomendo vivamente a BuildWeb Studio a quem procura um site profissional e de alta qualidade.",
+    name: "Lucas Brodmann",
     role: "Google Review",
-    href: "https://www.google.com/search?q=BuildWeb+Studio+Porto",
+    href: "https://www.google.com/maps/contrib/101064439451030884340/reviews?hl=en-GB",
   },
 ];
 
@@ -445,10 +439,10 @@ const Index = () => {
                 </Button>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
                 {["Entrega em 3–7 dias", "Preços fixos, sem surpresas", "100% responsivo"].map((k) => (
-                  <div key={k} className="flex items-center gap-2 text-muted-foreground">
-                    <Check className="w-4 h-4 text-mustard" /> {k}
+                  <div key={k} className="pl-3 border-l-2 border-mustard text-muted-foreground">
+                    {k}
                   </div>
                 ))}
               </div>
@@ -534,41 +528,51 @@ const Index = () => {
               Quem já trabalhou connosco.
             </h2>
           </div>
-          <div className={`grid gap-6 ${TESTIMONIALS.length === 1 ? "max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+          <div className={`grid gap-10 ${TESTIMONIALS.length === 1 ? "" : "md:grid-cols-2 lg:grid-cols-3"}`}>
             {TESTIMONIALS.map((t, i) => (
               <figure
                 key={i}
-                className="relative bg-card border border-border rounded-lg p-8 flex flex-col shadow-card"
+                className="relative grid md:grid-cols-12 gap-6 md:gap-10 items-start"
               >
-                <div className="flex gap-1 mb-5" aria-label="5 estrelas">
-                  {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className="w-4 h-4 fill-mustard text-mustard" />
-                  ))}
+                {/* Giant decorative quote */}
+                <div
+                  aria-hidden
+                  className="hidden md:block md:col-span-2 font-display text-azulejo/15 leading-none select-none"
+                  style={{ fontSize: "10rem" }}
+                >
+                  “
                 </div>
-                <blockquote className="font-display text-xl md:text-2xl text-azulejo leading-snug mb-6">
-                  “{t.quote}”
-                </blockquote>
-                <figcaption className="mt-auto flex items-center justify-between gap-3 flex-wrap">
-                  <div>
-                    <div className="font-semibold text-azulejo">{t.name}</div>
-                    <div className="text-sm text-muted-foreground">{t.role}</div>
+                <div className="md:col-span-10 max-w-3xl">
+                  <div className="flex gap-1 mb-5" aria-label="5 estrelas">
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star key={s} className="w-4 h-4 fill-mustard text-mustard" />
+                    ))}
                   </div>
-                  <a
-                    href={t.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs mono border border-border hover:border-mustard rounded-full px-3 py-1.5 transition-colors"
-                    aria-label="Ver review no Google"
-                  >
-                    <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" aria-hidden>
-                      <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.3 17.7 9.5 24 9.5z"/>
-                      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.5z"/>
-                      <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.7 0 20.2 0 24s1 7.3 2.6 10.8l7.9-6.1z"/>
-                      <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.8-13.5-9.3l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
-                    </svg>
-                    Google Review
-                  </a>
-                </figcaption>
+                  <blockquote className="font-display text-2xl md:text-3xl text-azulejo leading-snug mb-8">
+                    {t.quote}
+                  </blockquote>
+                  <figcaption className="flex items-center justify-between gap-4 flex-wrap border-t border-border pt-5">
+                    <div>
+                      <div className="font-semibold text-azulejo">— {t.name}</div>
+                      <div className="text-sm text-muted-foreground">{t.role}</div>
+                    </div>
+                    <a
+                      href={t.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs mono border border-border hover:border-mustard rounded-full px-3 py-1.5 transition-colors"
+                      aria-label="Ver review no Google"
+                    >
+                      <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" aria-hidden>
+                        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.3 17.7 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+                        <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.7 0 20.2 0 24s1 7.3 2.6 10.8l7.9-6.1z"/>
+                        <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.8-13.5-9.3l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+                      </svg>
+                      Google Review
+                    </a>
+                  </figcaption>
+                </div>
               </figure>
             ))}
           </div>
@@ -600,11 +604,6 @@ const Index = () => {
                     : "bg-card border-border hover:border-azulejo/40"
                 }`}
               >
-                {p.featured && (
-                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
-                    mais popular
-                  </span>
-                )}
                 <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
                   {p.tag}
                 </div>
@@ -614,11 +613,13 @@ const Index = () => {
                 <p className={`text-sm mb-6 ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>
                   {p.tagline}
                 </p>
-                <ul className="space-y-2.5 mb-8">
+                <ul className="space-y-3 mb-8">
                   {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
-                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    <li
+                      key={f}
+                      className={`text-sm pl-3 border-l-2 ${p.featured ? "border-mustard text-porcelana/90" : "border-azulejo/60"}`}
+                    >
+                      {f}
                     </li>
                   ))}
                 </ul>
@@ -664,11 +665,6 @@ const Index = () => {
                     : "bg-card border-border hover:border-azulejo/40"
                 }`}
               >
-                {p.featured && (
-                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
-                    mais popular
-                  </span>
-                )}
                 <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
                   {p.tag}
                 </div>
@@ -676,11 +672,13 @@ const Index = () => {
                   <span className="font-display text-5xl">{p.price}</span>
                   <span className={`text-sm ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>/mês</span>
                 </div>
-                <ul className="space-y-2.5 mb-8">
+                <ul className="space-y-3 mb-8">
                   {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
-                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    <li
+                      key={f}
+                      className={`text-sm pl-3 border-l-2 ${p.featured ? "border-mustard text-porcelana/90" : "border-azulejo/60"}`}
+                    >
+                      {f}
                     </li>
                   ))}
                 </ul>
@@ -741,9 +739,9 @@ const Index = () => {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-20 md:py-28">
+      <section className="pt-20 md:pt-28 pb-0 font-sans">
         <div className="container mx-auto px-6">
-          <div className="relative azulejo-pattern rounded-2xl overflow-hidden p-10 md:p-16 lg:p-20 text-center">
+          <div className="relative azulejo-pattern rounded-2xl overflow-hidden p-10 md:p-16 lg:p-20 text-center font-sans">
             <div className="absolute inset-0 border-2 border-mustard/20 rounded-2xl pointer-events-none" />
             <p className="mono text-xs uppercase tracking-[0.25em] text-mustard mb-5">
               &gt; próximo passo
@@ -751,15 +749,15 @@ const Index = () => {
             <h2 className="font-display text-4xl md:text-6xl text-porcelana max-w-3xl mx-auto mb-6 leading-[1.05]">
               Um site que trabalha por ti, em <span className="text-mustard">dias</span>.
             </h2>
-            <p className="text-porcelana/70 max-w-xl mx-auto mb-10 text-lg">
+            <p className="font-sans text-porcelana/70 max-w-xl mx-auto mb-10 text-lg">
               Sem formulários. Sem espera. Fala connosco no WhatsApp e recebes uma proposta em 24h.
             </p>
-            <Button asChild size="lg" className="btn-whatsapp h-16 px-10 text-lg gap-3 shadow-tile">
+            <Button asChild size="lg" className="btn-whatsapp h-16 px-10 text-lg gap-3 shadow-tile font-sans">
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-6 h-6" /> Falar no WhatsApp
               </a>
             </Button>
-            <p className="mono text-xs text-porcelana/50 mt-6">resposta média: &lt; 2h em dias úteis</p>
+            <p className="font-sans text-xs text-porcelana/60 mt-6">resposta média: &lt; 2h em dias úteis</p>
           </div>
         </div>
       </section>

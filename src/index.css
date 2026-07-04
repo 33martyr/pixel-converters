@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    /* Porcelana / azulejo palette */
-    --background: 40 33% 97%;           /* #FAF7F2 porcelana */
+    /* Porcelana / azulejo palette — cool blue-white */
+    --background: 210 20% 96%;          /* #F0F2F5 branco-azulado */
     --foreground: 218 56% 19%;          /* #14284A azulejo */
 
     --card: 0 0% 100%;
@@ -17,10 +17,10 @@
     --primary: 218 56% 19%;             /* azulejo #14284A */
     --primary-foreground: 40 33% 97%;
 
-    --secondary: 40 20% 92%;
+    --secondary: 210 22% 92%;
     --secondary-foreground: 218 56% 19%;
 
-    --muted: 40 20% 92%;
+    --muted: 210 22% 92%;
     --muted-foreground: 218 20% 40%;
 
     --accent: 36 72% 56%;               /* mostarda #E3A23C */
@@ -32,8 +32,8 @@
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 218 20% 88%;
-    --input: 218 20% 88%;
+    --border: 214 20% 86%;
+    --input: 214 20% 86%;
     --ring: 36 72% 56%;
 
     --radius: 0.5rem;
@@ -41,7 +41,7 @@
     --azulejo: 218 56% 19%;
     --azulejo-deep: 218 60% 12%;
     --mustard: 36 72% 56%;
-    --porcelana: 40 33% 97%;
+    --porcelana: 210 20% 97%;
 
     --shadow-tile: 0 20px 40px -20px hsl(218 56% 19% / 0.25);
     --shadow-card: 0 4px 20px -8px hsl(218 56% 19% / 0.15);
