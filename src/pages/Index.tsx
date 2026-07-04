@@ -147,20 +147,19 @@ const BuildLogHero = () => {
         </div>
       </div>
 
-      {/* Browser reveal */}
+      {/* Site reveal — simple shadowed card, no browser chrome */}
       <div
-        className={`browser-frame mt-4 md:mt-5 transition-all duration-700 ${
+        className={`mt-4 md:mt-5 rounded-lg overflow-hidden shadow-tile border border-border transition-all duration-700 ${
           done ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <div className="browser-chrome">
-          <span className="browser-dot bg-red-400/70" />
-          <span className="browser-dot bg-amber-400/70" />
-          <span className="browser-dot bg-emerald-400/70" />
-          <span className="mono ml-3 text-[11px] text-muted-foreground truncate">cafedoporto.pt</span>
+        <div className="flex items-center justify-between px-4 py-2.5 bg-card border-b border-border">
+          <span className="mono text-[11px] text-muted-foreground">cafedoporto.pt</span>
+          <span className="inline-flex items-center gap-1.5 mono text-[10px] text-emerald-600">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> live
+          </span>
         </div>
         <div className="relative aspect-[16/9] bg-porcelana overflow-hidden">
-          {/* Mini site mockup */}
           <div className="absolute inset-0 flex flex-col">
             <div className="flex items-center justify-between px-5 py-3 border-b border-border">
               <div className="flex items-center gap-2">
