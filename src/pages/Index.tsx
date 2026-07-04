@@ -275,8 +275,8 @@ const STEPS = [
   },
   {
     n: "02",
-    title: "Build assistido por IA",
-    desc: "Construímos o site em dias, não em meses. Ferramentas modernas + revisão humana em cada detalhe.",
+    title: "Construção à mão",
+    desc: "Codificamos o teu site em dias, não em meses. Cada secção pensada e revista à mão, sem templates genéricos.",
   },
   {
     n: "03",
