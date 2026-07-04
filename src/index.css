@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    /* Porcelana / azulejo palette */
-    --background: 40 33% 97%;           /* #FAF7F2 porcelana */
+    /* Porcelana / azulejo palette — cool blue-white */
+    --background: 210 20% 96%;          /* #F0F2F5 branco-azulado */
     --foreground: 218 56% 19%;          /* #14284A azulejo */
 
     --card: 0 0% 100%;
