@@ -508,16 +508,13 @@ const Index = () => {
               rel="noopener noreferrer"
               className="group relative rounded-lg border-2 border-dashed border-azulejo/30 hover:border-mustard bg-secondary/30 hover:bg-mustard/10 transition-all p-8 flex flex-col justify-between min-h-[380px]"
             >
-              <div className="mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                slot_disponível
-              </div>
               <div>
                 <Sparkles className="w-8 h-8 text-mustard mb-4" />
                 <h3 className="font-display text-2xl text-azulejo mb-2 leading-tight">
                   Sê o próximo caso de sucesso.
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
-                  Espaço para o teu projeto aqui em breve.
+                  O próximo projeto pode ser o teu.
                 </p>
               </div>
               <span className="inline-flex items-center gap-2 font-medium text-azulejo group-hover:text-mustard transition-colors">
