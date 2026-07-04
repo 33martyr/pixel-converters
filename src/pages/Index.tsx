@@ -4,7 +4,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles, Star,
+  ArrowRight, MessageCircle, Instagram, Mail, MapPin, Sparkles, Star,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
