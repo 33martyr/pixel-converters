@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles,
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles, Star,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
