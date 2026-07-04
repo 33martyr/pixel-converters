@@ -641,6 +641,105 @@ const Index = () => {
         </div>
       </section>
 
+      {/* MANUTENÇÃO */}
+      <section id="manutencao" className="py-20 md:py-28">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-mustard mb-3">Após o lançamento</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo mb-4">
+              O site não para no dia da entrega.
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Planos mensais para manter tudo a funcionar, atualizado e seguro.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {MAINTENANCE.map((p) => (
+              <div
+                key={p.tag}
+                className={`relative rounded-lg p-7 border transition-all ${
+                  p.featured
+                    ? "bg-azulejo text-porcelana border-azulejo shadow-tile md:-translate-y-3"
+                    : "bg-card border-border hover:border-azulejo/40"
+                }`}
+              >
+                {p.featured && (
+                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
+                    mais popular
+                  </span>
+                )}
+                <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
+                  {p.tag}
+                </div>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="font-display text-5xl">{p.price}</span>
+                  <span className={`text-sm ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>/mês</span>
+                </div>
+                <ul className="space-y-2.5 mb-8">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
+                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  asChild
+                  className={`w-full h-12 gap-2 ${
+                    p.featured ? "bg-mustard text-azulejo hover:bg-mustard/90" : "btn-whatsapp"
+                  }`}
+                >
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="w-4 h-4" /> Falar no WhatsApp
+                  </a>
+                </Button>
+              </div>
+            ))}
+          </div>
+          <p className="mono text-xs text-center text-muted-foreground mt-10">
+            sem fidelização · cancela quando quiseres
+          </p>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 md:py-28 bg-secondary/40 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-mustard mb-3">FAQ</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+              Perguntas frequentes.
+            </h2>
+          </div>
+          <div className="max-w-3xl">
+            <Accordion type="single" collapsible className="space-y-3">
+              {FAQ.map((item, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`faq-${i}`}
+                  className="bg-card border border-border rounded-lg px-6 data-[state=open]:border-mustard/60 transition-colors"
+                >
+                  <AccordionTrigger className="text-left font-display text-lg text-azulejo hover:no-underline py-5 [&>svg]:hidden group">
+                    <span className="flex-1 pr-4">{item.q}</span>
+                    <span
+                      aria-hidden
+                      className="relative w-6 h-6 shrink-0 text-mustard"
+                    >
+                      <span className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-current" />
+                      <span className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-current transition-transform duration-200 group-data-[state=open]:scale-y-0" />
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-5 pr-10">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* CTA FINAL */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-6">
