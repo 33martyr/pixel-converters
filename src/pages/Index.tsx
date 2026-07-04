@@ -229,16 +229,14 @@ const ProjectCard = ({ p }: { p: Project }) => (
     href={p.href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group block browser-frame hover:-translate-y-1 hover:shadow-tile transition-all duration-500"
+    className="group block hover:-translate-y-1 transition-all duration-500"
   >
-    <div className="browser-chrome">
-      <span className="browser-dot bg-red-400/70" />
-      <span className="browser-dot bg-amber-400/70" />
-      <span className="browser-dot bg-emerald-400/70" />
-      <span className="mono ml-3 text-[11px] text-muted-foreground">{p.url}</span>
+    <div className="flex items-baseline justify-between mb-3">
+      <h3 className="font-display font-semibold text-lg text-azulejo">{p.title}</h3>
+      <span className="mono text-[11px] text-muted-foreground">{p.url}</span>
     </div>
     <div
-      className="aspect-[4/3] relative overflow-hidden"
+      className="aspect-[4/3] relative overflow-hidden rounded-lg border border-border shadow-card group-hover:shadow-tile transition-shadow"
       style={{ backgroundColor: p.palette[0] }}
     >
       <div
@@ -257,11 +255,8 @@ const ProjectCard = ({ p }: { p: Project }) => (
         <span className="h-6 w-16 rounded border" style={{ borderColor: `${p.palette[1]}88` }} />
       </div>
     </div>
-    <div className="p-5 flex items-center justify-between">
-      <div>
-        <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{p.kind}</p>
-        <h3 className="font-display font-semibold text-lg mt-1">{p.title}</h3>
-      </div>
+    <div className="pt-4 flex items-center justify-between">
+      <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{p.kind}</p>
       <span className="inline-flex items-center gap-1.5 text-sm font-medium text-azulejo group-hover:text-mustard transition-colors">
         ver site <ArrowRight className="w-4 h-4" />
       </span>
