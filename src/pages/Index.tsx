@@ -739,9 +739,9 @@ const Index = () => {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-20 md:py-28">
+      <section className="pt-20 md:pt-28 pb-0 font-sans">
         <div className="container mx-auto px-6">
-          <div className="relative azulejo-pattern rounded-2xl overflow-hidden p-10 md:p-16 lg:p-20 text-center">
+          <div className="relative azulejo-pattern rounded-2xl overflow-hidden p-10 md:p-16 lg:p-20 text-center font-sans">
             <div className="absolute inset-0 border-2 border-mustard/20 rounded-2xl pointer-events-none" />
             <p className="mono text-xs uppercase tracking-[0.25em] text-mustard mb-5">
               &gt; próximo passo
@@ -749,15 +749,15 @@ const Index = () => {
             <h2 className="font-display text-4xl md:text-6xl text-porcelana max-w-3xl mx-auto mb-6 leading-[1.05]">
               Um site que trabalha por ti, em <span className="text-mustard">dias</span>.
             </h2>
-            <p className="text-porcelana/70 max-w-xl mx-auto mb-10 text-lg">
+            <p className="font-sans text-porcelana/70 max-w-xl mx-auto mb-10 text-lg">
               Sem formulários. Sem espera. Fala connosco no WhatsApp e recebes uma proposta em 24h.
             </p>
-            <Button asChild size="lg" className="btn-whatsapp h-16 px-10 text-lg gap-3 shadow-tile">
+            <Button asChild size="lg" className="btn-whatsapp h-16 px-10 text-lg gap-3 shadow-tile font-sans">
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-6 h-6" /> Falar no WhatsApp
               </a>
             </Button>
-            <p className="mono text-xs text-porcelana/50 mt-6">resposta média: &lt; 2h em dias úteis</p>
+            <p className="font-sans text-xs text-porcelana/60 mt-6">resposta média: &lt; 2h em dias úteis</p>
           </div>
         </div>
       </section>
