@@ -439,10 +439,10 @@ const Index = () => {
                 </Button>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
                 {["Entrega em 3–7 dias", "Preços fixos, sem surpresas", "100% responsivo"].map((k) => (
-                  <div key={k} className="flex items-center gap-2 text-muted-foreground">
-                    <Check className="w-4 h-4 text-mustard" /> {k}
+                  <div key={k} className="pl-3 border-l-2 border-mustard text-muted-foreground">
+                    {k}
                   </div>
                 ))}
               </div>
