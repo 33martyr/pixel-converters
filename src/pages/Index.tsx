@@ -329,6 +329,81 @@ const PRICING = [
   },
 ];
 
+const MAINTENANCE = [
+  {
+    tag: "Básico",
+    price: "15€",
+    features: [
+      "Alojamento e domínio geridos",
+      "Backups semanais",
+      "Atualizações de segurança",
+      "Suporte por WhatsApp (resposta em 48h)",
+    ],
+  },
+  {
+    tag: "Growth",
+    price: "45€",
+    featured: true,
+    features: [
+      "Tudo do Básico",
+      "Até 2 alterações de conteúdo/mês",
+      "Relatório mensal de performance (Analytics)",
+      "Suporte prioritário (resposta em 24h)",
+    ],
+  },
+  {
+    tag: "Ads & Growth",
+    price: "95€",
+    features: [
+      "Tudo do Growth",
+      "Gestão de campanhas Google/Meta Ads (orçamento à parte)",
+      "SEO contínuo",
+      "Reunião mensal de resultados",
+    ],
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Profissionalismo do início ao fim. Site entregue no prazo, exatamente como imaginei, e já começou a trazer contactos novos. Recomendo sem hesitar.",
+    name: "Cliente Satisfeito",
+    role: "Google Review",
+    href: "https://www.google.com/search?q=BuildWeb+Studio+Porto",
+  },
+];
+
+const FAQ = [
+  {
+    q: "O domínio e alojamento estão incluídos?",
+    a: "Não. Tratamos do site, tu ficas com o domínio e alojamento em teu nome — assim o site é sempre 100% teu. Ajudamos a configurar tudo, sem custo extra de gestão.",
+  },
+  {
+    q: "E se eu quiser alterações depois de entregue?",
+    a: "Pequenos ajustes nos primeiros 7 dias após entrega estão incluídos. Depois disso, tens o plano de manutenção mensal opcional, ou pedes alterações pontuais avulso.",
+  },
+  {
+    q: "Quem fica com o conteúdo e o código?",
+    a: "Tu. O site é teu, o código é teu, as imagens e textos são teus. Não há vendor lock-in.",
+  },
+  {
+    q: "Quanto tempo demora mesmo?",
+    a: "Landing page: 3 dias úteis. Site institucional: 5-7 dias úteis. Loja online: varia com o catálogo, normalmente 7-10 dias. Os prazos começam a contar depois do briefing.",
+  },
+  {
+    q: "Preciso de ter os textos e imagens prontos?",
+    a: "Não é obrigatório. Ajudamos a estruturar o conteúdo no briefing inicial, e se precisares de imagens podemos sugerir stock ou gerar com IA.",
+  },
+  {
+    q: "Como funciona o pagamento?",
+    a: "50% no início do projeto, 50% na entrega. Aceitamos transferência ou MB Way.",
+  },
+  {
+    q: "O site funciona bem em telemóvel?",
+    a: "Sim, todos os sites são 100% responsivos por defeito — testado em mobile, tablet e desktop antes de entregar.",
+  },
+];
+
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
