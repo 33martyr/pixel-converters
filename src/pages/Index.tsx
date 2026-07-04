@@ -604,11 +604,6 @@ const Index = () => {
                     : "bg-card border-border hover:border-azulejo/40"
                 }`}
               >
-                {p.featured && (
-                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
-                    mais popular
-                  </span>
-                )}
                 <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
                   {p.tag}
                 </div>
@@ -618,11 +613,13 @@ const Index = () => {
                 <p className={`text-sm mb-6 ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>
                   {p.tagline}
                 </p>
-                <ul className="space-y-2.5 mb-8">
+                <ul className="space-y-3 mb-8">
                   {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
-                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    <li
+                      key={f}
+                      className={`text-sm pl-3 border-l-2 ${p.featured ? "border-mustard text-porcelana/90" : "border-azulejo/60"}`}
+                    >
+                      {f}
                     </li>
                   ))}
                 </ul>
