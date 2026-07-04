@@ -360,10 +360,10 @@ const MAINTENANCE = [
 const TESTIMONIALS = [
   {
     quote:
-      "Profissionalismo do início ao fim. Site entregue no prazo, exatamente como imaginei, e já começou a trazer contactos novos. Recomendo sem hesitar.",
-    name: "Cliente Satisfeito",
+      "Estou extremamente satisfeito com a criação do meu site pela BuildWeb Studio. Do início ao fim, todo o processo foi profissional e sem complicações. O resultado final superou as minhas expectativas — o site tem um aspeto moderno, limpo e visualmente apelativo, exatamente o que procurava. O design é contemporâneo e funciona na perfeição em qualquer dispositivo. Recomendo vivamente a BuildWeb Studio a quem procura um site profissional e de alta qualidade.",
+    name: "Lucas Brodmann",
     role: "Google Review",
-    href: "https://www.google.com/search?q=BuildWeb+Studio+Porto",
+    href: "https://www.google.com/maps/contrib/101064439451030884340/reviews?hl=en-GB",
   },
 ];
 
