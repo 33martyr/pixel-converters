@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles,
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  ArrowRight, Check, MessageCircle, Instagram, Linkedin, Mail, MapPin, Sparkles, Star,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -326,6 +329,81 @@ const PRICING = [
   },
 ];
 
+const MAINTENANCE = [
+  {
+    tag: "Básico",
+    price: "15€",
+    features: [
+      "Alojamento e domínio geridos",
+      "Backups semanais",
+      "Atualizações de segurança",
+      "Suporte por WhatsApp (resposta em 48h)",
+    ],
+  },
+  {
+    tag: "Growth",
+    price: "45€",
+    featured: true,
+    features: [
+      "Tudo do Básico",
+      "Até 2 alterações de conteúdo/mês",
+      "Relatório mensal de performance (Analytics)",
+      "Suporte prioritário (resposta em 24h)",
+    ],
+  },
+  {
+    tag: "Ads & Growth",
+    price: "95€",
+    features: [
+      "Tudo do Growth",
+      "Gestão de campanhas Google/Meta Ads (orçamento à parte)",
+      "SEO contínuo",
+      "Reunião mensal de resultados",
+    ],
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Profissionalismo do início ao fim. Site entregue no prazo, exatamente como imaginei, e já começou a trazer contactos novos. Recomendo sem hesitar.",
+    name: "Cliente Satisfeito",
+    role: "Google Review",
+    href: "https://www.google.com/search?q=BuildWeb+Studio+Porto",
+  },
+];
+
+const FAQ = [
+  {
+    q: "O domínio e alojamento estão incluídos?",
+    a: "Não. Tratamos do site, tu ficas com o domínio e alojamento em teu nome — assim o site é sempre 100% teu. Ajudamos a configurar tudo, sem custo extra de gestão.",
+  },
+  {
+    q: "E se eu quiser alterações depois de entregue?",
+    a: "Pequenos ajustes nos primeiros 7 dias após entrega estão incluídos. Depois disso, tens o plano de manutenção mensal opcional, ou pedes alterações pontuais avulso.",
+  },
+  {
+    q: "Quem fica com o conteúdo e o código?",
+    a: "Tu. O site é teu, o código é teu, as imagens e textos são teus. Não há vendor lock-in.",
+  },
+  {
+    q: "Quanto tempo demora mesmo?",
+    a: "Landing page: 3 dias úteis. Site institucional: 5-7 dias úteis. Loja online: varia com o catálogo, normalmente 7-10 dias. Os prazos começam a contar depois do briefing.",
+  },
+  {
+    q: "Preciso de ter os textos e imagens prontos?",
+    a: "Não é obrigatório. Ajudamos a estruturar o conteúdo no briefing inicial, e se precisares de imagens podemos sugerir stock ou gerar com IA.",
+  },
+  {
+    q: "Como funciona o pagamento?",
+    a: "50% no início do projeto, 50% na entrega. Aceitamos transferência ou MB Way.",
+  },
+  {
+    q: "O site funciona bem em telemóvel?",
+    a: "Sim, todos os sites são 100% responsivos por defeito — testado em mobile, tablet e desktop antes de entregar.",
+  },
+];
+
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
@@ -430,22 +508,69 @@ const Index = () => {
               rel="noopener noreferrer"
               className="group relative rounded-lg border-2 border-dashed border-azulejo/30 hover:border-mustard bg-secondary/30 hover:bg-mustard/10 transition-all p-8 flex flex-col justify-between min-h-[380px]"
             >
-              <div className="mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                slot_disponível
-              </div>
               <div>
                 <Sparkles className="w-8 h-8 text-mustard mb-4" />
                 <h3 className="font-display text-2xl text-azulejo mb-2 leading-tight">
                   Sê o próximo caso de sucesso.
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
-                  Espaço para o teu projeto aqui em breve.
+                  O próximo projeto pode ser o teu.
                 </p>
               </div>
               <span className="inline-flex items-center gap-2 font-medium text-azulejo group-hover:text-mustard transition-colors">
                 Começar projeto <ArrowRight className="w-4 h-4" />
               </span>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTEMUNHOS */}
+      <section id="testemunhos" className="py-20 md:py-28 bg-secondary/40 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-mustard mb-3">Testemunhos</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+              Quem já trabalhou connosco.
+            </h2>
+          </div>
+          <div className={`grid gap-6 ${TESTIMONIALS.length === 1 ? "max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3"}`}>
+            {TESTIMONIALS.map((t, i) => (
+              <figure
+                key={i}
+                className="relative bg-card border border-border rounded-lg p-8 flex flex-col shadow-card"
+              >
+                <div className="flex gap-1 mb-5" aria-label="5 estrelas">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="w-4 h-4 fill-mustard text-mustard" />
+                  ))}
+                </div>
+                <blockquote className="font-display text-xl md:text-2xl text-azulejo leading-snug mb-6">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption className="mt-auto flex items-center justify-between gap-3 flex-wrap">
+                  <div>
+                    <div className="font-semibold text-azulejo">{t.name}</div>
+                    <div className="text-sm text-muted-foreground">{t.role}</div>
+                  </div>
+                  <a
+                    href={t.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs mono border border-border hover:border-mustard rounded-full px-3 py-1.5 transition-colors"
+                    aria-label="Ver review no Google"
+                  >
+                    <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" aria-hidden>
+                      <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.3 17.7 9.5 24 9.5z"/>
+                      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+                      <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 16.7 0 20.2 0 24s1 7.3 2.6 10.8l7.9-6.1z"/>
+                      <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.6-3.8-13.5-9.3l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+                    </svg>
+                    Google Review
+                  </a>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
@@ -513,6 +638,105 @@ const Index = () => {
           <p className="mono text-xs text-center text-muted-foreground mt-10">
             valores + IVA · alojamento e domínio não incluídos · manutenção opcional
           </p>
+        </div>
+      </section>
+
+      {/* MANUTENÇÃO */}
+      <section id="manutencao" className="py-20 md:py-28">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-mustard mb-3">Após o lançamento</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo mb-4">
+              O site não para no dia da entrega.
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Planos mensais para manter tudo a funcionar, atualizado e seguro.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {MAINTENANCE.map((p) => (
+              <div
+                key={p.tag}
+                className={`relative rounded-lg p-7 border transition-all ${
+                  p.featured
+                    ? "bg-azulejo text-porcelana border-azulejo shadow-tile md:-translate-y-3"
+                    : "bg-card border-border hover:border-azulejo/40"
+                }`}
+              >
+                {p.featured && (
+                  <span className="absolute -top-3 left-7 mono text-[10px] uppercase tracking-widest bg-mustard text-azulejo px-2 py-1 rounded">
+                    mais popular
+                  </span>
+                )}
+                <div className={`mono text-xs uppercase tracking-widest mb-4 ${p.featured ? "text-mustard" : "text-muted-foreground"}`}>
+                  {p.tag}
+                </div>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="font-display text-5xl">{p.price}</span>
+                  <span className={`text-sm ${p.featured ? "text-porcelana/70" : "text-muted-foreground"}`}>/mês</span>
+                </div>
+                <ul className="space-y-2.5 mb-8">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${p.featured ? "text-mustard" : "text-azulejo"}`} />
+                      <span className={p.featured ? "text-porcelana/90" : ""}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  asChild
+                  className={`w-full h-12 gap-2 ${
+                    p.featured ? "bg-mustard text-azulejo hover:bg-mustard/90" : "btn-whatsapp"
+                  }`}
+                >
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="w-4 h-4" /> Falar no WhatsApp
+                  </a>
+                </Button>
+              </div>
+            ))}
+          </div>
+          <p className="mono text-xs text-center text-muted-foreground mt-10">
+            sem fidelização · cancela quando quiseres
+          </p>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 md:py-28 bg-secondary/40 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mb-14">
+            <p className="mono text-xs uppercase tracking-[0.2em] text-mustard mb-3">FAQ</p>
+            <h2 className="font-display text-4xl md:text-5xl text-azulejo">
+              Perguntas frequentes.
+            </h2>
+          </div>
+          <div className="max-w-3xl">
+            <Accordion type="single" collapsible className="space-y-3">
+              {FAQ.map((item, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`faq-${i}`}
+                  className="bg-card border border-border rounded-lg px-6 data-[state=open]:border-mustard/60 transition-colors"
+                >
+                  <AccordionTrigger className="text-left font-display text-lg text-azulejo hover:no-underline py-5 [&>svg]:hidden group">
+                    <span className="flex-1 pr-4">{item.q}</span>
+                    <span
+                      aria-hidden
+                      className="relative w-6 h-6 shrink-0 text-mustard"
+                    >
+                      <span className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-current" />
+                      <span className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-current transition-transform duration-200 group-data-[state=open]:scale-y-0" />
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-5 pr-10">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
