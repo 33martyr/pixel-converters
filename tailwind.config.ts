@@ -72,6 +72,7 @@ export default {
       },
       fontFamily: {
         display: ['"Bricolage Grotesque"', "Inter", "sans-serif"],
+        cond: ['"Big Shoulders Display"', '"Bricolage Grotesque"', "sans-serif"],
         serifem: ['"Instrument Serif"', "Georgia", "serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
