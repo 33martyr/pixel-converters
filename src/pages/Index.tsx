@@ -449,7 +449,7 @@ const Process = () => (
     </div>
     {STAGES.map((s) => (
       <div key={s.n} className="sticky top-0 min-h-[86vh] flex items-center bg-ink border-b border-paper/15">
-        <div className="px-5 lg:px-14 w-full grid grid-cols-12 gap-6 items-end py-16">
+        <div className="px-5 lg:px-14 w-full grid grid-cols-12 gap-6 items-center lg:items-end py-16">
           <span className="col-span-12 lg:col-span-2 meta text-signal">ETAPA {s.n}</span>
           <h3 className="col-span-12 lg:col-span-7 font-display text-[22vw] lg:text-[14vw] leading-[0.8]">
             {s.t}
