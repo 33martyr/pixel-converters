@@ -4,129 +4,189 @@
 
 @layer base {
   :root {
-    /* Porcelana / azulejo palette — cool blue-white */
-    --background: 210 20% 96%;          /* #F0F2F5 branco-azulado */
-    --foreground: 218 56% 19%;          /* #14284A azulejo */
+    /* PAPER / INK — print-production palette */
+    --background: 40 9% 95%;            /* paper #F4F2EF */
+    --foreground: 220 14% 9%;           /* ink #14161A */
 
-    --card: 0 0% 100%;
-    --card-foreground: 218 56% 19%;
+    --card: 40 9% 95%;
+    --card-foreground: 220 14% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 218 56% 19%;
+    --popover-foreground: 220 14% 9%;
 
-    --primary: 218 56% 19%;             /* azulejo #14284A */
-    --primary-foreground: 40 33% 97%;
+    --primary: 220 14% 9%;
+    --primary-foreground: 40 9% 95%;
 
-    --secondary: 210 22% 92%;
-    --secondary-foreground: 218 56% 19%;
+    --secondary: 40 8% 91%;
+    --secondary-foreground: 220 14% 9%;
 
-    --muted: 210 22% 92%;
-    --muted-foreground: 218 20% 40%;
+    --muted: 40 8% 91%;
+    --muted-foreground: 220 6% 42%;
 
-    --accent: 36 72% 56%;               /* mostarda #E3A23C */
-    --accent-foreground: 218 56% 19%;
+    --accent: 218 56% 19%;
+    --accent-foreground: 40 9% 95%;
 
-    --whatsapp: 142 70% 40%;
-    --whatsapp-foreground: 0 0% 100%;
+    --whatsapp: 142 60% 32%;
+    --whatsapp-foreground: 40 9% 95%;
 
-    --destructive: 0 72% 45%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 6 72% 45%;
+    --destructive-foreground: 40 9% 95%;
 
-    --border: 214 20% 86%;
-    --input: 214 20% 86%;
-    --ring: 36 72% 56%;
+    --border: 220 8% 82%;
+    --input: 220 8% 82%;
+    --ring: 220 14% 9%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
+    --paper: 40 9% 95%;
+    --paper-2: 40 8% 91%;
+    --ink: 220 14% 9%;
     --azulejo: 218 56% 19%;
-    --azulejo-deep: 218 60% 12%;
-    --mustard: 36 72% 56%;
-    --porcelana: 210 20% 97%;
-
-    --shadow-tile: 0 20px 40px -20px hsl(218 56% 19% / 0.25);
-    --shadow-card: 0 4px 20px -8px hsl(218 56% 19% / 0.15);
+    --signal: 18 88% 52%;              /* registration orange, used sparingly */
+    --rule: 220 8% 78%;
   }
 }
 
 @layer base {
   * { @apply border-border; }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+  }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
-    font-feature-settings: "ss01", "cv11";
+    font-feature-settings: "ss01", "cv11", "tnum";
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
     font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.86;
+    text-wrap: balance;
   }
 
-  .mono {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-feature-settings: "calt", "liga";
+  ::selection {
+    background: hsl(var(--ink));
+    color: hsl(var(--paper));
   }
 
   :focus-visible {
-    outline: 2px solid hsl(var(--mustard));
+    outline: 2px solid hsl(var(--signal));
     outline-offset: 3px;
-    border-radius: 4px;
   }
 }
 
 @layer components {
-  /* Portuguese tile pattern — subtle azulejo motif */
-  .azulejo-pattern {
-    background-color: hsl(var(--azulejo));
+  /* mono annotation label */
+  .meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .meta-sm { font-size: 9px; letter-spacing: 0.2em; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-feature-settings: "tnum"; }
+
+  .serif-em {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* hairline rules */
+  .rule-t { border-top: 1px solid hsl(var(--rule)); }
+  .rule-b { border-bottom: 1px solid hsl(var(--rule)); }
+  .rule-l { border-left: 1px solid hsl(var(--rule)); }
+
+  /* architectural plan grid, extremely faint */
+  .plan-grid {
     background-image:
-      radial-gradient(circle at 25% 25%, hsl(var(--mustard) / 0.08) 0, transparent 40%),
-      radial-gradient(circle at 75% 75%, hsl(var(--porcelana) / 0.06) 0, transparent 40%),
-      linear-gradient(45deg, transparent 48%, hsl(var(--porcelana) / 0.04) 49%, hsl(var(--porcelana) / 0.04) 51%, transparent 52%);
-    background-size: 60px 60px, 60px 60px, 24px 24px;
+      linear-gradient(hsl(var(--ink) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--ink) / 0.045) 1px, transparent 1px);
+    background-size: 100% 5.5rem, 5.5rem 100%;
   }
 
-  .tile-grid {
-    background-image:
-      linear-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
-    background-size: 48px 48px;
+  /* measurement tick strip */
+  .tick-strip {
+    background-image: repeating-linear-gradient(
+      to right,
+      hsl(var(--ink) / 0.35) 0 1px,
+      transparent 1px 12px
+    );
+    height: 6px;
   }
 
-  /* Browser chrome frame */
-  .browser-frame {
-    @apply rounded-lg overflow-hidden border shadow-tile bg-card;
+  /* crop marks on a pinned plate */
+  .crop::before,
+  .crop::after,
+  .crop > .crop-b::before,
+  .crop > .crop-b::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: hsl(var(--ink) / 0.55);
+    border-style: solid;
+    border-width: 0;
   }
-  .browser-chrome {
-    @apply flex items-center gap-1.5 px-3 py-2.5 border-b bg-secondary/60;
-  }
-  .browser-dot { @apply w-2.5 h-2.5 rounded-full; }
+  .crop::before { top: -7px; left: -7px; border-top-width: 1px; border-left-width: 1px; }
+  .crop::after { top: -7px; right: -7px; border-top-width: 1px; border-right-width: 1px; }
+  .crop > .crop-b::before { bottom: -7px; left: -7px; border-bottom-width: 1px; border-left-width: 1px; }
+  .crop > .crop-b::after { bottom: -7px; right: -7px; border-bottom-width: 1px; border-right-width: 1px; }
 
-  .accent-underline {
-    background-image: linear-gradient(hsl(var(--mustard)), hsl(var(--mustard)));
+  /* dotted leader for editorial metadata */
+  .leader {
+    flex: 1;
+    border-bottom: 1px dotted hsl(var(--ink) / 0.3);
+    margin: 0 0.5rem 0.28rem;
+  }
+
+  .vert {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(hsl(var(--ink)), hsl(var(--ink)));
+    background-size: 0% 1px;
     background-repeat: no-repeat;
-    background-position: 0 92%;
-    background-size: 100% 0.28em;
+    background-position: 0 100%;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  .link-underline:hover { background-size: 100% 1px; }
 
-  .btn-whatsapp {
-    background-color: hsl(var(--whatsapp));
-    color: hsl(var(--whatsapp-foreground));
+  .on-ink .link-underline {
+    background-image: linear-gradient(hsl(var(--paper)), hsl(var(--paper)));
   }
-  .btn-whatsapp:hover { background-color: hsl(142 70% 34%); }
 }
 
 @layer utilities {
-  .animate-caret::after {
-    content: "▊";
-    display: inline-block;
-    color: hsl(var(--mustard));
-    animation: caret-blink 1s steps(2) infinite;
-    margin-left: 2px;
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  @keyframes caret-blink {
-    50% { opacity: 0; }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  .marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee 38s linear infinite;
   }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .text-balance { text-wrap: balance; }
+  .grayscale-hover { filter: grayscale(1) contrast(1.05); transition: filter 0.7s ease; }
+  .grayscale-hover:hover { filter: grayscale(0) contrast(1); }
 }
