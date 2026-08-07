@@ -82,8 +82,6 @@ export default {
         sm: "0px",
       },
       boxShadow: {
-        tile: "var(--shadow-tile)",
-        card: "var(--shadow-card)",
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
