@@ -57,26 +57,29 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        azulejo: {
-          DEFAULT: "hsl(var(--azulejo))",
-          deep: "hsl(var(--azulejo-deep))",
+        azulejo: "hsl(var(--azulejo))",
+        paper: {
+          DEFAULT: "hsl(var(--paper))",
+          2: "hsl(var(--paper-2))",
         },
-        mustard: "hsl(var(--mustard))",
-        porcelana: "hsl(var(--porcelana))",
+        ink: "hsl(var(--ink))",
+        signal: "hsl(var(--signal))",
+        rule: "hsl(var(--rule))",
         whatsapp: {
           DEFAULT: "hsl(var(--whatsapp))",
           foreground: "hsl(var(--whatsapp-foreground))",
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', "Inter", "sans-serif"],
+        display: ['"Bricolage Grotesque"', "Inter", "sans-serif"],
+        serifem: ['"Instrument Serif"', "Georgia", "serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "0px",
+        md: "0px",
+        sm: "0px",
       },
       boxShadow: {
         tile: "var(--shadow-tile)",
