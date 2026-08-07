@@ -239,7 +239,7 @@ const Hero = () => (
           <span className="block animate-fade-in-up">SITES QUE</span>
           <span className="block animate-fade-in-up [animation-delay:120ms]">
             NÃO PEDEM{" "}
-            <span className="serif-em lowercase tracking-tight text-signal normal-case">licença</span>
+            <span className="serif-em text-[0.72em] tracking-tight text-signal normal-case align-baseline">licença</span>
           </span>
           <span className="block animate-fade-in-up [animation-delay:240ms]">PARA EXISTIR.</span>
         </h1>
