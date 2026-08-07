@@ -236,12 +236,12 @@ const Hero = () => (
           <Meta className="hidden sm:inline">ED. 2026</Meta>
         </div>
         <h1 className="cond text-[19vw] lg:text-[13.5vw] -ml-1">
-          <span className="block clip-up is-in">SITES QUE</span>
-          <span className="block clip-up">
+          <span className="block animate-fade-in-up">SITES QUE</span>
+          <span className="block animate-fade-in-up [animation-delay:120ms]">
             NÃO PEDEM{" "}
             <span className="serif-em lowercase tracking-tight text-signal normal-case">licença</span>
           </span>
-          <span className="block clip-up">PARA EXISTIR.</span>
+          <span className="block animate-fade-in-up [animation-delay:240ms]">PARA EXISTIR.</span>
         </h1>
       </div>
 
